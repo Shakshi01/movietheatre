@@ -13,7 +13,7 @@ mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-
+console.log('Connecting to MongoDB');
 mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB');
 });
