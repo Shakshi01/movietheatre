@@ -5,7 +5,7 @@ import { AuthContext } from './context/AuthContext'
 const AdminRoute = ({ children }) => {
 	const { auth, setAuth } = useContext(AuthContext)
 	if (auth.role !== 'admin') {
-		return <Navigate to="/" />
+		return <Navigate to="/login" />
 	}
 	return children
 }
