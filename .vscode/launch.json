@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid:830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Server Program",
+            "runtimeExecutable":"/Users/praneethreddy/.nvm/versions/node/v20.6.1/bin/node",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/server/server.js",
+            "env": {
+                "PORT": "8080",
+                "DATABASE": "mongodb+srv://praneeth:praneeth123@movietheatreapplication.4nmas7o.mongodb.net/movietheatreDB?retryWrites:true&w:majority",
+                "JWT_SECRET": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJuYW1lIjoicHJhbmVldGgiLCJpYXQiOjE1MTYyMzkwMjJ9.Z3iVQ0mIkMlhXNXgfiY3EOkGHHAM7syw9Dcx7GFABKA",
+                "JWT_EXPIRE": "30d",
+                "JWT_COOKIE_EXPIRE": "30"
+            }
+        }
+        ]
+    }

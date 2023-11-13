@@ -8,13 +8,14 @@ exports.register = async (req, res, next) => {
 		const { username, email, password, role = 'user' } = req.body
 
 		//Create user
+		//console.log(role);
 		const user = await User.create({
 			username,
 			email,
 			password,
 			role
 		})
-
+		//console.log(user);
 		sendTokenResponse(user, 200, res)
 	} catch (err) {
 		res.status(400).json({ success: false, message: err })
@@ -56,8 +57,10 @@ exports.login = async (req, res, next) => {
 //Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
 	//Create token
+	//console.log('sendtoken')
 	const token = user.getSignedJwtToken()
-
+	//const token ="fsd"
+	//console.log(token)
 	const options = {
 		expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
 		httpOnly: true
@@ -66,6 +69,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 	if (process.env.NODE_ENV === 'production') {
 		options.secure = true
 	}
+	//console.log(statusCode)
 	res.status(statusCode).cookie('token', token, options).json({
 		success: true,
 		token
