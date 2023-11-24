@@ -21,7 +21,8 @@ const userSchema = new Schema({
   },
   membershipType: {
     type: String,
-    default: "regular", // You can set the default value as needed
+    required: true,
+    //default: "regular", // You can set the default value as needed
   },
   membershipExpiry: {
     type: Date,

@@ -19,6 +19,7 @@ export const sendUserAuthRequest = async (data, signup) => {
       email: data.email,
       username:data.username,
       password: data.password,
+      membership: data.membership,
     })
     .catch((err) => console.log(err));
 

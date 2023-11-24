@@ -17,6 +17,7 @@ import {
       email: "",
       username: "",
       password: "",
+      membership: "",
     });
     const [isSignup, setIsSignup] = useState(false);
     const handleChange = (e) => {
@@ -30,6 +31,7 @@ import {
         setMembership(e.target.value);
     };
     const handleSubmit = (e) => {
+      inputs.membership = membership;
       e.preventDefault();
       onSubmit({ inputs, signup: isAdmin ? false : isSignup });
     };

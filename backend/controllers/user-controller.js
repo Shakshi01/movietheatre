@@ -13,9 +13,10 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const signup = async (req, res, next) => {
-  const { name, email, username, password } = req.body;
+  const { name, email, username, password, membership } = req.body;
+  console.log(req.body);
   
-  if (!name || !email || !username || !password) {
+  if (!name || !email || !username || !password || !membership) {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
 
@@ -26,7 +27,7 @@ export const signup = async (req, res, next) => {
     }
 
     const hashedPassword = bcrypt.hashSync(password);
-    const newUser = new User({ name, email, username, password: hashedPassword });
+    const newUser = new User({ name, email, username, password: hashedPassword,membershipType:membership });
     const savedUser = await newUser.save();
 
     return res.status(201).json({ id: savedUser._id });
