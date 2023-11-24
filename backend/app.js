@@ -23,8 +23,8 @@ app.use("/booking", bookingsRouter);
 // MongoDB Connection
 //const connectionString = 'mongodb+srv://movietheater$(process.env.MONGODB_PASSWORD):mongodb123@cluster0.jt5vmvj.mongodb.net/?retryWrites=true&w=majority';
 
-const connectionString ='mongodb+srv://movietheater:mongodb123@cluster0.jt5vmvj.mongodb.net/?retryWrites=true&w=majority';
-//const connectionString='mongodb+srv://praneeth:mongodb123@movietheatreapplication.4nmas7o.mongodb.net/?retryWrites=true&w=majority';
+//const connectionString ='mongodb+srv://movietheater:mongodb123@cluster0.jt5vmvj.mongodb.net/?retryWrites=true&w=majority';
+const connectionString='mongodb+srv://praneeth:praneeth123@movietheatreapplication.4nmas7o.mongodb.net/movietheatreDB?retryWrites=true&w=majority';
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true

@@ -25,6 +25,10 @@ import {
         [e.target.name]: e.target.value,
       }));
     };
+    const [membership, setMembership] = useState('regular'); // default value
+    const handleMembershipChange = (e) => {
+        setMembership(e.target.value);
+    };
     const handleSubmit = (e) => {
       e.preventDefault();
       onSubmit({ inputs, signup: isAdmin ? false : isSignup });
@@ -90,6 +94,16 @@ import {
               type={"password"}
               name="password"
             />
+            {!isAdmin && isSignup && (
+              <>
+                {" "}
+                <FormLabel sx={labelStyle}>Choose a Membership Type:</FormLabel>
+                <select id="membership-select" value={membership} onChange={handleMembershipChange}>
+                    <option value="regular">Regular</option>
+                    <option value="premium">Premium</option>
+                </select>
+              </>
+            )}
             <Button
               sx={{ mt: 2, borderRadius: 10, bgcolor: "#2b2d42" }}
               type="submit"
