@@ -11,7 +11,7 @@ export const addTheater = async (req, res, next) => {
   let adminId;
 
   // verify token
-  jwt.verify(extractedToken, process.env.SECRET_KEY, (err, decrypted) => {
+  jwt.verify(extractedToken, 'mongodb123', (err, decrypted) => {
     if (err) {
       return res.status(400).json({ message: `${err.message}` });
     } else {
@@ -27,7 +27,8 @@ export const addTheater = async (req, res, next) => {
     !theaterName &&
     theaterName.trim() === "" &&
     !city &&
-    city.trim() == ""
+    city.trim() == "" &&
+    !capacity
   ) {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
@@ -42,8 +43,8 @@ export const addTheater = async (req, res, next) => {
     const adminUser = await Admin.findById(adminId);
     session.startTransaction();
     await theater.save({ session });
-    adminUser.addedTheaters.push(theater);
-    await adminUser.save({ session });
+    //adminUser.addedTheaters.push(theater);
+    //await adminUser.save({ session });
     await session.commitTransaction();
   } catch (err) {
     return console.log(err);
