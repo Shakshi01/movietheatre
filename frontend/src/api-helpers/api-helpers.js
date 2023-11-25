@@ -100,6 +100,7 @@ export const getUserBooking = async () => {
     return console.log("Unexpected Error");
   }
   const resData = await res.data;
+  console.log("data:",resData);
   return resData;
 };
 

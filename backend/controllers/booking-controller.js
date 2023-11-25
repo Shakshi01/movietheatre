@@ -33,8 +33,8 @@ export const newBooking = async (req, res, next) => {
     });
     const session = await mongoose.startSession();
     session.startTransaction();
-    //existingUser.bookings.push(booking);
-    //existingMovie.bookings.push(booking);
+    existingUser.bookings.push(booking);
+    existingMovie.bookings.push(booking);
     await existingUser.save({ session });
     await existingMovie.save({ session });
     await booking.save({ session });

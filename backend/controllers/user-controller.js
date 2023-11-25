@@ -119,8 +119,8 @@ export const getBookingsOfUser = async (req, res, next) => {
   let bookings;
   try {
     bookings = await Bookings.find({ user: id })
-      .populate("movie")
-      .populate("user");
+      .populate("movieId")
+      .populate("userId");
   } catch (err) {
     return console.log(err);
   }

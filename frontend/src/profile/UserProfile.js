@@ -96,13 +96,14 @@ const UserProfile = () => {
                     <ListItemText
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
                     >
-                      Movie: {booking.movie.title}
+                      Movie: {booking.movieId.movieName}
                     </ListItemText>
-                    <ListItemText
+                    <ListItemText 
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
                     >
-                      Seat: {booking.seatNumber}
+                      Seat: {booking.seats.join(", ")}
                     </ListItemText>
+
                     <ListItemText
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
                     >

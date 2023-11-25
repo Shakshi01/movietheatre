@@ -32,6 +32,7 @@ const userSchema = new Schema({
     type: String,
     default: "credit_card", // You can set the default payment method as needed
   },
+  bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
 });
 
 export default mongoose.model("User", userSchema);
