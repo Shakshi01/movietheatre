@@ -98,6 +98,11 @@ const UserProfile = () => {
                     >
                       Movie: {booking.movieId.movieName}
                     </ListItemText>
+                    <ListItemText
+                      sx={{ margin: 1, width: "auto", textAlign: "left" }}
+                    >
+                      Theater: {booking.theaterId.theaterName}
+                    </ListItemText>
                     <ListItemText 
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
                     >

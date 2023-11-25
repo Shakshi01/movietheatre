@@ -114,12 +114,14 @@ export const login = async (req, res, next) => {
     .status(200)
     .json({ message: "Login Successfull", id: existingUser._id });
 };
+
 export const getBookingsOfUser = async (req, res, next) => {
   const id = req.params.id;
   let bookings;
   try {
     bookings = await Bookings.find({ user: id })
       .populate("movieId")
+      .populate("theaterId")
       .populate("userId");
   } catch (err) {
     return console.log(err);
@@ -129,6 +131,7 @@ export const getBookingsOfUser = async (req, res, next) => {
   }
   return res.status(200).json({ bookings });
 };
+
 export const getUserById = async (req, res, next) => {
   const id = req.params.id;
   let user;
