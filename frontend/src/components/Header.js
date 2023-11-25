@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Select, MenuItem } from '@mui/material';
 import {
   AppBar,
   Autocomplete,
@@ -10,10 +11,11 @@ import {
 } from "@mui/material";
 import MovieIcon from "@mui/icons-material/Movie";
 import { Box } from "@mui/system";
-import { getAllMovies } from "../api-helpers/api-helpers";
+import { getAllMovies, fetchCities } from "../api-helpers/api-helpers";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { adminActions, userActions } from "../store";
+import { useCity } from './CityContext';
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,6 +23,21 @@ const Header = () => {
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const [value, setValue] = useState();
   const [movies, setMovies] = useState([]);
+  const [cities, setCities] = useState([]);
+  //const [selectedCity, setSelectedCity] = useState('');
+  const {selectedCity, setSelectedCity} = useCity();
+
+
+  useEffect(() => {
+    fetchCities()
+      .then(data => {
+        setCities(data['theaters']);
+      })
+      .catch(error => {
+        console.error('Error fetching cities:', error);
+      });
+  }, []);
+
   useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
@@ -36,6 +53,12 @@ const Header = () => {
       navigate(`/booking/${movie._id}`);
     }
   };
+  const handleCityChange = (event) => {
+    setSelectedCity(event.target.value);
+    window.location.reload()
+    console.log("selected city:",event.target.value);
+  };
+  
   return (
     <AppBar position="sticky" sx={{ bgcolor: "#2b2d42" }}>
       <Toolbar>
@@ -43,6 +66,19 @@ const Header = () => {
           <IconButton LinkComponent={Link} to="/">
             <MovieIcon />
           </IconButton>
+          <Select
+            value={selectedCity}
+            onChange={handleCityChange}
+            displayEmpty
+            sx={{ marginLeft: 1,  color: "white"}} // Adjust styling as needed
+          >
+            <MenuItem value="">
+              <em>All Cities</em>
+            </MenuItem>
+            {cities.map((theater, index) => (
+              <MenuItem key={index} value={theater.city}>{theater.city}</MenuItem>
+            ))}
+          </Select>
         </Box>
         <Box width={"30%"} margin="auto">
           <Autocomplete

@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { getAllMovies, getAllTheaters } from "../api-helpers/api-helpers";
 import MovieItem from "./Movies/MovieItem";
 import TheaterItem from "./Theaters/TheaterItem";
+import { useCity } from './CityContext';
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [theaters, setTheaters] = useState([]);
+  const {selectedCity, setSelectedCity} = useCity();
+
   useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
@@ -20,6 +23,7 @@ const HomePage = () => {
       .catch((err) => console.log(err));
       console.log("shakshi...theaters.");
       console.log(theaters);
+      console.log("homepage selected city:", selectedCity);
   }, []);
 
   return (

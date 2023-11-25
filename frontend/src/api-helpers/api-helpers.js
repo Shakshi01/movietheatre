@@ -25,6 +25,18 @@ export const getAllTheaters = async () => {
   return data;
 };
 
+export const fetchCities = async () => {
+  const res = await axios.get("/locations").catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+
+  const data = await res.data;
+  console.log("cities:",data);
+  return data;
+};
+
 export const sendUserAuthRequest = async (data, signup) => {
   const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`, {

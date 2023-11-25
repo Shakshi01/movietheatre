@@ -1,4 +1,4 @@
-import { Button, FormLabel, TextField, Typography, Select, MenuItem, Grid } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Button, FormLabel, TextField, Typography, Select, MenuItem, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,9 @@ const Booking = () => {
   const id = useParams().id;
   console.log(id);
   const [selectedTheater, setSelectedTheater] = useState(null);
+  const [openPaymentDialog, setOpenPaymentDialog] = useState(false);
+  const [paymentSource, setPaymentSource] = useState('');
+
 
   useEffect(() => {
     getMovieDetails(id)
@@ -32,6 +35,30 @@ const Booking = () => {
       setSeats(newSeats);
     }
   }, [selectedTheater]);
+
+  const handleOpenPaymentDialog = () => {
+    setOpenPaymentDialog(true);
+  };
+  
+  const handleClosePaymentDialog = () => {
+    setOpenPaymentDialog(false);
+  };
+  const handlePaymentSourceChange = (event) => {
+    setPaymentSource(event.target.value);
+  };
+  
+  const handleFinalizeBooking = (e) => {
+    console.log("finilizing payment");
+    e.preventDefault();
+    console.log("handle submit",inputs);
+    const selectedSeatIds = seats.filter(seat => seat.status === 'selected').map(seat => seat.id);
+    newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
+    handleClosePaymentDialog();
+  };
+  
   
   const handleSeatClick = (seatId) => {
     const selectedSeatsCount = seats.filter(seat => seat.status === 'selected').length;
@@ -61,11 +88,12 @@ const Booking = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputs);
+    console.log("handle submit",inputs);
     const selectedSeatIds = seats.filter(seat => seat.status === 'selected').map(seat => seat.id);
     newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
+    handleClosePaymentDialog();
   };
   return (
     <div>
@@ -163,9 +191,28 @@ const Booking = () => {
                       ))}
                     </Grid>
                   </Box>
-                  <Button type="submit" sx={{ mt: 3 }}>
+                  <Button type="button" sx={{ mt: 3 }} onClick={handleOpenPaymentDialog}>
                     Book Now
                   </Button>
+                  <Dialog open={openPaymentDialog} onClose={handleClosePaymentDialog}>
+                  <DialogTitle>Payment Information</DialogTitle>
+                  <DialogContent>
+                    <Select
+                      value={paymentSource}
+                      onChange={handlePaymentSourceChange}
+                      displayEmpty
+                      fullWidth
+                    >
+                      <MenuItem value="">
+                      </MenuItem>
+                      <MenuItem value="rewards">Rewards</MenuItem>
+                      <MenuItem value="creditCard">Credit Card</MenuItem>
+                    </Select>
+                    <Button type="submit" sx={{ mt: 3 }} onClick={handleFinalizeBooking}>
+                      Finalize Booking
+                    </Button>
+                  </DialogContent>
+                </Dialog>
                 </Box>
               </form>
             </Box>

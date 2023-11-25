@@ -70,14 +70,14 @@ export const deleteBooking = async (req, res, next) => {
   const id = req.params.id;
   let booking;
   try {
-    booking = await Bookings.findByIdAndRemove(id).populate("user movie");
+    booking = await Bookings.findByIdAndRemove(id).populate("userId movieId");
     console.log(booking);
     const session = await mongoose.startSession();
     session.startTransaction();
-    await booking.user.bookings.pull(booking);
-    await booking.movie.bookings.pull(booking);
-    await booking.movie.save({ session });
-    await booking.user.save({ session });
+    await booking.userId.bookings.pull(booking);
+    await booking.movieId.bookings.pull(booking);
+    await booking.movieId.save({ session });
+    await booking.userId.save({ session });
     session.commitTransaction();
   } catch (err) {
     return console.log(err);

@@ -1,4 +1,4 @@
-import { Button, FormLabel, TextField, Typography, Select, MenuItem } from "@mui/material";
+import { Button, FormLabel, TextField, Typography, Select, MenuItem, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -6,9 +6,12 @@ import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/a
 
 const Booking = () => {
   const [movie, setMovie] = useState();
-  const [inputs, setInputs] = useState({ seatNumber: "", date: "", theater: "" });
+  const [inputs, setInputs] = useState({date: "", theater: "" });
   const id = useParams().id;
   console.log(id);
+  const [selectedTheater, setSelectedTheater] = useState(null);
+  const [openPaymentDialog, setOpenPaymentDialog] = useState(false);
+
 
   useEffect(() => {
     getMovieDetails(id)
@@ -20,29 +23,49 @@ const Booking = () => {
       .catch((err) => console.log(err));
   }, [id]);
 
+  const [seats, setSeats] = useState([]);
+
   useEffect(() => {
-    if (theaterCapacity) {
-      const newSeats = Array.from({ length: theaterCapacity }, (_, i) => ({
-        id: i + 1,
-        status: 'available' // could be 'available', 'booked', or 'selected'
+    if (selectedTheater && selectedTheater.capacity) {
+      const newSeats = Array.from({ length: selectedTheater.capacity }, (_, index) => ({
+        id: index + 1,
+        status: 'available' // This could also be 'booked' if you have that info
       }));
       setSeats(newSeats);
     }
-  }, [theaterCapacity]);
-
+  }, [selectedTheater]);
+  
+  const handleSeatClick = (seatId) => {
+    const selectedSeatsCount = seats.filter(seat => seat.status === 'selected').length;
+    const isCurrentlySelected = seats.find(seat => seat.id === seatId).status === 'selected';
+  
+    if (selectedSeatsCount < 8 || isCurrentlySelected) {
+      // Toggle seat selection
+      const updatedSeats = seats.map(seat => seat.id === seatId
+        ? { ...seat, status: seat.status === 'selected' ? 'available' : 'selected' }
+        : seat);
+      setSeats(updatedSeats);
+    } else {
+      // Optionally alert the user that the maximum number of seats has been reached
+      alert("You can select up to 8 seats.");
+    }
+  };
+  
   
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    setSelectedTheater(e.target.value);
   };
   const [theaters, setTheaters] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    newBooking({ ...inputs, movie: movie._id })
+    const selectedSeatIds = seats.filter(seat => seat.status === 'selected').map(seat => seat.id);
+    newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -98,7 +121,7 @@ const Booking = () => {
                     <MenuItem value="">
                     </MenuItem>
                     {theaters.map((theater, index) => (
-                      <MenuItem key={index} value={theater._id}>{theater.theaterName}</MenuItem>
+                      <MenuItem key={index} value={theater}>{theater.theaterName}</MenuItem>
                     ))}
                   </Select>
                   <FormLabel>Booking Date</FormLabel>
@@ -110,7 +133,8 @@ const Booking = () => {
                     value={inputs.date}
                     onChange={handleChange}
                   />
-
+                  <Box marginBottom={5}></Box>
+                  <FormLabel>Seat Selection</FormLabel>
                   <Box
                     sx={{
                       height: '50px', // Adjust the height as needed
@@ -126,17 +150,21 @@ const Booking = () => {
                   >
                     <Typography variant="h6">Screen</Typography>
                   </Box>
-
-
-                  <FormLabel>Seat Number</FormLabel>
-                  <TextField
-                    name="seatNumber"
-                    value={inputs.seatNumber}
-                    onChange={handleChange}
-                    type={"number"}
-                    margin="normal"
-                    variant="standard"
-                  />
+                  <Box>
+                    <Grid container spacing={1}>
+                      {seats.map(seat => (
+                        <Grid item key={seat.id}>
+                          <Button
+                            variant={seat.status === 'selected' ? 'contained' : 'outlined'}
+                            onClick={() => handleSeatClick(seat.id)}
+                            disabled={seat.status === 'booked'}
+                          >
+                            {seat.id}
+                          </Button>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Box>
                   <Button type="submit" sx={{ mt: 3 }}>
                     Book Now
                   </Button>

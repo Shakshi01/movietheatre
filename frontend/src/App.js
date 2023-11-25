@@ -13,6 +13,7 @@ import AdminProfile from "./profile/AdminProfile";
 import UserProfile from "./profile/UserProfile";
 import { adminActions, userActions } from "./store";
 import Theaters from "./components/Theaters/Theaters";
+import { CityProvider } from './components/CityContext';
 
 function App() {
   //require('dotenv').config();
@@ -29,38 +30,40 @@ function App() {
     }
   }, [dispatch]);
   return (
-    <div>
-      <Header />
-      <section>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/theaters" element={<Theaters />} />
-          {!isUserLoggedIn && !isAdminLoggedIn && (
-            <>
-              {" "}
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/auth" element={<Auth />} />
-            </>
-          )}
-          {isUserLoggedIn && !isAdminLoggedIn && (
-            <>
-              {" "}
-              <Route path="/user" element={<UserProfile />} />
-              <Route path="/booking/:id" element={<Booking />} />
-            </>
-          )}
-          {isAdminLoggedIn && !isUserLoggedIn && (
-            <>
-              {" "}
-              <Route path="/addtheater" element={<AddTheater />} />
-              <Route path="/addmovie" element={<AddMovie />} />
-              <Route path="/user-admin" element={<AdminProfile />} />{" "}
-            </>
-          )}
-        </Routes>
-      </section>
-    </div>
+    <CityProvider>
+      <div>
+        <Header />
+        <section>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/movies" element={<Movies />} />
+            <Route path="/theaters" element={<Theaters />} />
+            {!isUserLoggedIn && !isAdminLoggedIn && (
+              <>
+                {" "}
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/auth" element={<Auth />} />
+              </>
+            )}
+            {isUserLoggedIn && !isAdminLoggedIn && (
+              <>
+                {" "}
+                <Route path="/user" element={<UserProfile />} />
+                <Route path="/booking/:id" element={<Booking />} />
+              </>
+            )}
+            {isAdminLoggedIn && !isUserLoggedIn && (
+              <>
+                {" "}
+                <Route path="/addtheater" element={<AddTheater />} />
+                <Route path="/addmovie" element={<AddMovie />} />
+                <Route path="/user-admin" element={<AdminProfile />} />{" "}
+              </>
+            )}
+          </Routes>
+        </section>
+      </div>
+    </CityProvider>
   );
 }
 
