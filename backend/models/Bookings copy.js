@@ -6,23 +6,23 @@ const bookingSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  theaterId: {
+  showtimeId: {
     type: mongoose.Types.ObjectId,
-    ref: "Theatre", // Assuming you have a "Showtime" model
+    ref: "Showtime", // Assuming you have a "Showtime" model
     required: true,
   },
-  movieId:{
-    type: mongoose.Types.ObjectId,
-    ref: "Movie", // Assuming you have a "Showtime" model
+  numberOfTickets: {
+    type: Number,
     required: true,
   },
-  seats: {
-    type: Array,
+  totalPrice: {
+    type: Number,
     required: true,
   },
-  date: {
-    type: Date,
+  paymentStatus: {
+    type: String,
     required: true,
+    enum: ["completed", "pending", "canceled"], // Define possible payment statuses
   },
 });
 

@@ -6,7 +6,7 @@ import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/a
 
 const Booking = () => {
   const [movie, setMovie] = useState();
-  const [inputs, setInputs] = useState({ seatNumber: "", date: "", theater: "" });
+  const [inputs, setInputs] = useState({date: "", theater: "" });
   const id = useParams().id;
   console.log(id);
   const [selectedTheater, setSelectedTheater] = useState(null);
