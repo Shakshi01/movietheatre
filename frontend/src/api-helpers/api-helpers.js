@@ -154,6 +154,32 @@ export const addMovie = async (data) => {
   return resData;
 };
 
+export const addTheater = async (data) => {
+  const res = await axios
+    .post(
+      "/theater",
+      {
+        theaterName: data.theaterName,
+        city: data.city,
+        capacity: data.capacity,
+        admin: localStorage.getItem("adminId"),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .catch((err) => console.log(err));
+
+  if (res.status !== 201) {
+    return console.log("Unexpected Error Occurred");
+  }
+
+  const resData = await res.data;
+  return resData;
+};
+
 export const getAdminById = async () => {
   const adminId = localStorage.getItem("adminId");
   const res = await axios

@@ -7,6 +7,7 @@ import Booking from "./components/Bookings/Booking";
 import Header from "./components/Header";
 import HomePage from "./components/HomePage";
 import AddMovie from "./components/Movies/AddMovie";
+import AddTheater from "./components/Theaters/AddTheater";
 import Movies from "./components/Movies/Movies";
 import AdminProfile from "./profile/AdminProfile";
 import UserProfile from "./profile/UserProfile";
@@ -52,7 +53,8 @@ function App() {
           {isAdminLoggedIn && !isUserLoggedIn && (
             <>
               {" "}
-              <Route path="/add" element={<AddMovie />} />
+              <Route path="/addtheater" element={<AddTheater />} />
+              <Route path="/addmovie" element={<AddMovie />} />
               <Route path="/user-admin" element={<AdminProfile />} />{" "}
             </>
           )}

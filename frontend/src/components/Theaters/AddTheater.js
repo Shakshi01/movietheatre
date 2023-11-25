@@ -14,24 +14,33 @@ import {
   };
   const AddTheater = () => {
     const [inputs, setInputs] = useState({
-      title: "",
-      description: "",
-      posterUrl: "",
-      releaseDate: "",
-      featured: false,
+      theaterName: "",
+      city: "",
+      capacity: "",
     });
-    const [actors, setActors] = useState([]);
-    const [actor, setActor] = useState("");
     const handleChange = (e) => {
       setInputs((prevState) => ({
         ...prevState,
         [e.target.name]: e.target.value,
       }));
     };
+    const handleIncrement = () => {
+      setInputs(prevInputs => ({
+        ...prevInputs,
+        capacity: parseInt(prevInputs.capacity, 10) + 1
+      }));
+    };
+    
+    const handleDecrement = () => {
+      setInputs(prevInputs => ({
+        ...prevInputs,
+        capacity: Math.max(parseInt(prevInputs.capacity, 10) - 1, 0) // Prevents negative numbers
+      }));
+    };
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(inputs, actors);
-      addTheater({ ...inputs, actors })
+      console.log(inputs);
+      addTheater({ ...inputs })
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     };
@@ -49,69 +58,31 @@ import {
             <Typography textAlign={"center"} variant="h5" fontFamily={"verdana"}>
               Add New Theater
             </Typography>
-            <FormLabel sx={labelProps}>Title</FormLabel>
+            <FormLabel sx={labelProps}>Theater Name</FormLabel>
             <TextField
-              value={inputs.title}
+              value={inputs.theaterName}
               onChange={handleChange}
-              name="title"
+              name="theaterName"
               variant="standard"
               margin="normal"
             />
-            <FormLabel sx={labelProps}>Description</FormLabel>
+            <FormLabel sx={labelProps}>City</FormLabel>
             <TextField
-              value={inputs.description}
+              value={inputs.city}
               onChange={handleChange}
-              name="description"
+              name="city"
               variant="standard"
               margin="normal"
             />
-            <FormLabel sx={labelProps}>Poster URL</FormLabel>
+            <FormLabel sx={labelProps}>Theator Capacity</FormLabel>
             <TextField
-              value={inputs.posterUrl}
+              type="number"
+              value={inputs.capacity}
               onChange={handleChange}
-              name="posterUrl"
-              variant="standard"
+              name="capacity"
               margin="normal"
             />
-            <FormLabel sx={labelProps}>Release Date</FormLabel>
-            <TextField
-              type={"date"}
-              value={inputs.releaseDate}
-              onChange={handleChange}
-              name="releaseDate"
-              variant="standard"
-              margin="normal"
-            />
-            <FormLabel sx={labelProps}>Actor</FormLabel>
-            <Box display={"flex"}>
-              <TextField
-                value={actor}
-                name="actor"
-                onChange={(e) => setActor(e.target.value)}
-                variant="standard"
-                margin="normal"
-              />
-              <Button
-                onClick={() => {
-                  setActors([...actors, actor]);
-                  setActor("");
-                }}
-              >
-                Add
-              </Button>
-            </Box>
-            <FormLabel sx={labelProps}>Featured</FormLabel>
-            <Checkbox
-              name="fetaured"
-              checked={inputs.featured}
-              onClick={(e) =>
-                setInputs((prevSate) => ({
-                  ...prevSate,
-                  featured: e.target.checked,
-                }))
-              }
-              sx={{ mr: "auto" }}
-            />
+            
             <Button
               type="submit"
               variant="contained"

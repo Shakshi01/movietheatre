@@ -21,7 +21,7 @@ export const addTheater = async (req, res, next) => {
   });
 
   //create new theater
-  const { theaterName, city} =
+  const { theaterName, city, capacity} =
     req.body;
   if (
     !theaterName &&
@@ -38,6 +38,7 @@ export const addTheater = async (req, res, next) => {
     theater = new Theater({
       theaterName,
       city,
+      capacity,
     });
     const session = await mongoose.startSession();
     const adminUser = await Admin.findById(adminId);
