@@ -11,8 +11,10 @@ import Movies from "./components/Movies/Movies";
 import AdminProfile from "./profile/AdminProfile";
 import UserProfile from "./profile/UserProfile";
 import { adminActions, userActions } from "./store";
+import Theaters from "./components/Theaters/Theaters";
 
 function App() {
+  //require('dotenv').config();
   const dispatch = useDispatch();
   const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -32,6 +34,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/theaters" element={<Theaters />} />
           {!isUserLoggedIn && !isAdminLoggedIn && (
             <>
               {" "}

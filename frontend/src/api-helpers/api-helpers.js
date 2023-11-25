@@ -12,6 +12,19 @@ export const getAllMovies = async () => {
   return data;
 };
 
+export const getAllTheaters = async () => {
+  const res = await axios.get("/theater").catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+
+  const data = await res.data;
+  console.log("shakshi2....");
+  console.log(data);
+  return data;
+};
+
 export const sendUserAuthRequest = async (data, signup) => {
   const res = await axios
     .post(`/user/${signup ? "signup" : "login"}`, {
@@ -32,9 +45,10 @@ export const sendUserAuthRequest = async (data, signup) => {
 };
 
 export const sendAdminAuthRequest = async (data) => {
+  console.log("admin login:", data);
   const res = await axios
     .post("/admin/login", {
-      username: data.username,
+      email: data.email,
       password: data.password,
     })
     .catch((err) => console.log(err));
@@ -116,12 +130,12 @@ export const addMovie = async (data) => {
     .post(
       "/movie",
       {
-        title: data.title,
+        movieName: data.movieName,
         description: data.description,
-        releaseDate: data.releaseDate,
-        posterUrl: data.posterUrl,
-        fetaured: data.fetaured,
-        actors: data.actors,
+        date: data.date,
+        img: data.img,
+        language: data.language,
+        length: data.length,
         admin: localStorage.getItem("adminId"),
       },
       {

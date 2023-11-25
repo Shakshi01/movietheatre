@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Admin from "../models/Admin";
 import Movie from "../models/Movie";
+
 export const addMovie = async (req, res, next) => {
   const extractedToken = req.headers.authorization.split(" ")[1];
   if (!extractedToken && extractedToken.trim() === "") {
@@ -11,7 +12,7 @@ export const addMovie = async (req, res, next) => {
   let adminId;
 
   // verify token
-  jwt.verify(extractedToken, process.env.SECRET_KEY, (err, decrypted) => {
+  jwt.verify(extractedToken, "mongodb123", (err, decrypted) => {
     if (err) {
       return res.status(400).json({ message: `${err.message}` });
     } else {
@@ -21,15 +22,13 @@ export const addMovie = async (req, res, next) => {
   });
 
   //create new movie
-  const { title, description, releaseDate, posterUrl, featured, actors } =
+  const { movieName, language, img, description, date, length } =
     req.body;
   if (
-    !title &&
-    title.trim() === "" &&
+    !movieName &&
+    movieName.trim() === "" &&
     !description &&
-    description.trim() == "" &&
-    !posterUrl &&
-    posterUrl.trim() === ""
+    description.trim() == ""
   ) {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
@@ -37,20 +36,20 @@ export const addMovie = async (req, res, next) => {
   let movie;
   try {
     movie = new Movie({
+      movieName,
+      language,
+      img,
       description,
-      releaseDate: new Date(`${releaseDate}`),
-      featured,
-      actors,
-      admin: adminId,
-      posterUrl,
-      title,
+      date: new Date(`${date}`),
+      length,
     });
     const session = await mongoose.startSession();
     const adminUser = await Admin.findById(adminId);
     session.startTransaction();
     await movie.save({ session });
-    adminUser.addedMovies.push(movie);
-    await adminUser.save({ session });
+    console.log(movie);
+    //adminUser.addedMovies.push(movie);
+    //await adminUser.save({ session });
     await session.commitTransaction();
   } catch (err) {
     return console.log(err);
@@ -93,6 +92,6 @@ export const getMovieById = async (req, res, next) => {
     console.log("movie id not found");
     return res.status(404).json({ message: "Invalid Movie ID" });
   }
-
+  console.log("movie:",movie);
   return res.status(200).json({ movie });
 };

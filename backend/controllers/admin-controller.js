@@ -35,6 +35,7 @@ export const addAdmin = async (req, res, next) => {
 
 export const adminLogin = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log("adminlogin:",req.body)
   if (!email && email.trim() === "" && !password && password.trim() === "") {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
@@ -56,7 +57,7 @@ export const adminLogin = async (req, res, next) => {
     return res.status(400).json({ message: "Incorrect Password" });
   }
 
-  const token = jwt.sign({ id: existingAdmin._id }, process.env.SECRET_KEY, {
+  const token = jwt.sign({ id: existingAdmin._id }, "mongodb123", {
     expiresIn: "7d",
   });
 

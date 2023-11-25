@@ -43,7 +43,7 @@ import {
       adminLogin(inputs)
         .then(onRequestSent)
         .catch((err) => console.log(err));
-      setInputs({ name: "", email: "", password: "" });
+      setInputs({ email: "", password: "" });
     };
   
     return (

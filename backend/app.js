@@ -12,12 +12,14 @@ app.use(express.json());
 import userRouter from "./routes/user-routes";
 import adminRouter from "./routes/admin-routes";
 import movieRouter from "./routes/movie-routes";
+import theaterRouter from "./routes/theater-routes";
 import bookingsRouter from "./routes/booking-routes";
 
 // Using routes
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
 app.use("/movie", movieRouter);
+app.use("/theater", theaterRouter);
 app.use("/booking", bookingsRouter);
 
 // MongoDB Connection

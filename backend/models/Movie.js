@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    required: false,
-  },
   movieName: {
     type: String,
     required: true,
@@ -19,7 +15,7 @@ const movieSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    required: true,
+    default: "finished",
   },
   description: {
     type: String,
@@ -27,13 +23,13 @@ const movieSchema = new mongoose.Schema({
   },
   rating: {
     type: String,
-    required: true,
+    default: "PG-13",
   },
   date: {
     type: Date,
     required: true,
   },
-  $length: {
+  length: {
     type: String, // Assuming duration is a string in hours (e.g., "2 hours")
     required: true,
   },

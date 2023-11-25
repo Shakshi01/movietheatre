@@ -78,7 +78,9 @@ import {
               type={"email"}
               name="email"
             />
-            <FormLabel sx={labelStyle}>Username</FormLabel>
+            {!isAdmin && (
+            <FormLabel sx={labelStyle}>Username</FormLabel>)}
+            {!isAdmin && (
             <TextField
               value={inputs.username}
               onChange={handleChange}
@@ -87,6 +89,7 @@ import {
               type={"text"}
               name="username"
             />
+            )}
             <FormLabel sx={labelStyle}>Password</FormLabel>
             <TextField
               value={inputs.password}

@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    Checkbox,
     FormLabel,
     TextField,
     Typography,
@@ -14,14 +13,13 @@ import {
   };
   const AddMovie = () => {
     const [inputs, setInputs] = useState({
-      title: "",
+      movieName: "",
+      language: "",
       description: "",
-      posterUrl: "",
-      releaseDate: "",
-      featured: false,
+      img: "",
+      date: "",
+      length: "",
     });
-    const [actors, setActors] = useState([]);
-    const [actor, setActor] = useState("");
     const handleChange = (e) => {
       setInputs((prevState) => ({
         ...prevState,
@@ -30,8 +28,8 @@ import {
     };
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(inputs, actors);
-      addMovie({ ...inputs, actors })
+      console.log(inputs);
+      addMovie(inputs)
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     };
@@ -51,9 +49,17 @@ import {
             </Typography>
             <FormLabel sx={labelProps}>Title</FormLabel>
             <TextField
-              value={inputs.title}
+              value={inputs.movieName}
               onChange={handleChange}
-              name="title"
+              name="movieName"
+              variant="standard"
+              margin="normal"
+            />
+            <FormLabel sx={labelProps}>Language</FormLabel>
+            <TextField
+              value={inputs.language}
+              onChange={handleChange}
+              name="language"
               variant="standard"
               margin="normal"
             />
@@ -67,50 +73,28 @@ import {
             />
             <FormLabel sx={labelProps}>Poster URL</FormLabel>
             <TextField
-              value={inputs.posterUrl}
+              value={inputs.img}
               onChange={handleChange}
-              name="posterUrl"
+              name="img"
               variant="standard"
               margin="normal"
             />
             <FormLabel sx={labelProps}>Release Date</FormLabel>
             <TextField
               type={"date"}
-              value={inputs.releaseDate}
+              value={inputs.date}
               onChange={handleChange}
-              name="releaseDate"
+              name="date"
               variant="standard"
               margin="normal"
             />
-            <FormLabel sx={labelProps}>Actor</FormLabel>
-            <Box display={"flex"}>
-              <TextField
-                value={actor}
-                name="actor"
-                onChange={(e) => setActor(e.target.value)}
-                variant="standard"
-                margin="normal"
-              />
-              <Button
-                onClick={() => {
-                  setActors([...actors, actor]);
-                  setActor("");
-                }}
-              >
-                Add
-              </Button>
-            </Box>
-            <FormLabel sx={labelProps}>Featured</FormLabel>
-            <Checkbox
-              name="fetaured"
-              checked={inputs.featured}
-              onClick={(e) =>
-                setInputs((prevSate) => ({
-                  ...prevSate,
-                  featured: e.target.checked,
-                }))
-              }
-              sx={{ mr: "auto" }}
+            <FormLabel sx={labelProps}>Length</FormLabel>
+            <TextField
+              value={inputs.length}
+              onChange={handleChange}
+              name="length"
+              variant="standard"
+              margin="normal"
             />
             <Button
               type="submit"
