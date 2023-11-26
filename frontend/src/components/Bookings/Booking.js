@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { getMovieDetails, newBooking, getAllTheaters, getTheatersByLocation} from "../../api-helpers/api-helpers";
 import { useCity } from './../CityContext';
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Booking = () => {
   const [movie, setMovie] = useState();
@@ -17,6 +18,8 @@ const Booking = () => {
   const {selectedCity, setSelectedCity} = useCity();
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const bookingSeatLimit = isUserLoggedIn ? 8 : 1;
+  const [pricePerTicket, setPricePerTicket] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getMovieDetails(id)
@@ -38,6 +41,10 @@ const Booking = () => {
   const [seats, setSeats] = useState([]);
 
   useEffect(() => {
+    console.log("selecetedtheater:",selectedTheater);
+    if (selectedTheater){
+      console.log(selectedTheater.price);
+    }
     if (selectedTheater && selectedTheater.capacity) {
       const newSeats = Array.from({ length: selectedTheater.capacity }, (_, index) => ({
         id: index + 1,
@@ -45,6 +52,12 @@ const Booking = () => {
       }));
       setSeats(newSeats);
     }
+    if (selectedTheater && selectedTheater.price) {
+      setPricePerTicket(selectedTheater.price);
+    } else {
+      setPricePerTicket(0);
+    }
+    console.log("priceperticket",pricePerTicket);
   }, [selectedTheater]);
 
   const handleOpenPaymentDialog = () => {
@@ -62,12 +75,18 @@ const Booking = () => {
     console.log("finilizing payment");
     e.preventDefault();
     console.log("handle submit",inputs);
-    const selectedSeatIds = seats.filter(seat => seat.status === 'selected').map(seat => seat.id);
-    newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds,  isUserLoggedIn})
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    try{
+      const selectedSeatIds = seats.filter(seat => seat.status === 'selected').map(seat => seat.id);
+      newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds,  isUserLoggedIn})
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
 
-    handleClosePaymentDialog();
+      handleClosePaymentDialog();
+      alert(`Ticket Booked`);
+    }
+    catch{
+      alert(`Ticket Booking Failed!`);
+    }
   };
   
   
@@ -93,7 +112,9 @@ const Booking = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-    setSelectedTheater(e.target.value);
+    if (e.target.name === 'theater') {
+      setSelectedTheater(e.target.value);
+    }
   };
   const [theaters, setTheaters] = useState([]);
 
@@ -206,24 +227,33 @@ const Booking = () => {
                     Book Now
                   </Button>
                   <Dialog open={openPaymentDialog} onClose={handleClosePaymentDialog}>
-                  <DialogTitle>Payment Information</DialogTitle>
-                  <DialogContent>
-                    <Select
-                      value={paymentSource}
-                      onChange={handlePaymentSourceChange}
-                      displayEmpty
-                      fullWidth
-                    >
-                      <MenuItem value="">
-                      </MenuItem>
-                      <MenuItem value="rewards">Rewards</MenuItem>
-                      <MenuItem value="creditCard">Credit Card</MenuItem>
-                    </Select>
-                    <Button type="submit" sx={{ mt: 3 }} onClick={handleFinalizeBooking}>
-                      Finalize Booking
-                    </Button>
-                  </DialogContent>
-                </Dialog>
+                    <DialogTitle>Payment Information</DialogTitle>
+                    <DialogContent>
+                      <Typography variant="h6" sx={{ my: 2 }}>
+                        Number of Tickets: {seats.filter(seat => seat.status === 'selected').length}
+                        <br />
+                        Price per Ticket: ${pricePerTicket}
+                        <br />
+                        Online Service Fees: $1.5
+                        <br />
+                        Total Price: ${seats.filter(seat => seat.status === 'selected').length * pricePerTicket + 1.5}
+                      </Typography>
+                      <Select
+                        value={paymentSource}
+                        onChange={handlePaymentSourceChange}
+                        displayEmpty
+                        fullWidth
+                      >
+                        <MenuItem value="">
+                        </MenuItem>
+                        <MenuItem value="rewards">Rewards</MenuItem>
+                        <MenuItem value="creditCard">Credit Card</MenuItem>
+                      </Select>
+                      <Button type="submit" sx={{ mt: 3 }} onClick={handleFinalizeBooking}>
+                        Finalize Booking
+                      </Button>
+                    </DialogContent>
+                  </Dialog>
                 </Box>
               </form>
             </Box>
