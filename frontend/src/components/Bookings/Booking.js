@@ -2,7 +2,8 @@ import { Dialog, DialogContent, DialogTitle, Button, FormLabel, TextField, Typog
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/api-helpers";
+import { getMovieDetails, newBooking, getAllTheaters, getTheatersByLocation} from "../../api-helpers/api-helpers";
+import { useCity } from './../CityContext';
 
 const Booking = () => {
   const [movie, setMovie] = useState();
@@ -12,16 +13,23 @@ const Booking = () => {
   const [selectedTheater, setSelectedTheater] = useState(null);
   const [openPaymentDialog, setOpenPaymentDialog] = useState(false);
   const [paymentSource, setPaymentSource] = useState('');
-
+  const {selectedCity, setSelectedCity} = useCity();
 
   useEffect(() => {
     getMovieDetails(id)
       .then((res) => setMovie(res.movie))
       .catch((err) => console.log(err));
 
-    getAllTheaters()
-      .then((res) => setTheaters(res.theaters))
-      .catch((err) => console.log(err));
+    if(selectedCity==''){
+      getAllTheaters()
+        .then((res) => setTheaters(res.theaters))
+        .catch((err) => console.log(err));
+    }
+    else{
+      getTheatersByLocation(selectedCity)
+        .then((res) => setTheaters(res.theaters))
+        .catch((err) => console.log(err));
+    }
   }, [id]);
 
   const [seats, setSeats] = useState([]);

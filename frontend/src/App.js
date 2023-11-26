@@ -52,6 +52,13 @@ function App() {
                 <Route path="/booking/:id" element={<Booking />} />
               </>
             )}
+            {!isAdminLoggedIn && (
+              <>
+                {" "}
+                <Route path="/user" element={<UserProfile />} />
+                <Route path="/booking/:id" element={<Booking />} />
+              </>
+            )}
             {isAdminLoggedIn && !isUserLoggedIn && (
               <>
                 {" "}
