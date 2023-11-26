@@ -22,6 +22,7 @@ const Booking = () => {
   const [pricePerTicket, setPricePerTicket] = useState(0);
   const [TotalPrice, setTotalPrice] = useState(0);
   const [AvailableRewards, setAvailableRewards] = useState(0);
+  const [onlineServiceFees, setonlineServiceFees] = useState(1.5);
   const [user, setUser] = useState('');
   const navigate = useNavigate();
 
@@ -38,6 +39,8 @@ const Booking = () => {
             console.log("in booking",res);
             setUser(res.user);
             setAvailableRewards(res.user.rewards);
+            const servicefee = res.user.membershipType=='premium' ? 0 : 1.5;
+            setonlineServiceFees(servicefee);
           }
         })
         .catch((err) => console.log(err));
@@ -80,7 +83,7 @@ const Booking = () => {
   }, [selectedTheater]);
 
   const handleOpenPaymentDialog = () => {
-    setTotalPrice(seats.filter(seat => seat.status === 'selected').length * pricePerTicket + 1.5);
+    setTotalPrice(seats.filter(seat => seat.status === 'selected').length * pricePerTicket + onlineServiceFees);
     setOpenPaymentDialog(true);
   };
   
@@ -274,7 +277,7 @@ const Booking = () => {
                         <br />
                         Price per Ticket: ${pricePerTicket}
                         <br />
-                        Online Service Fees: $1.5
+                        Online Service Fees: ${onlineServiceFees}
                         <br />
                         Total Price: ${TotalPrice}
                       </Typography>
