@@ -4,7 +4,7 @@ const bookingSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
   },
   theaterId: {
     type: mongoose.Types.ObjectId,

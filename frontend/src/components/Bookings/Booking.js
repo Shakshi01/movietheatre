@@ -4,6 +4,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieDetails, newBooking, getAllTheaters, getTheatersByLocation} from "../../api-helpers/api-helpers";
 import { useCity } from './../CityContext';
+import { useSelector } from "react-redux";
 
 const Booking = () => {
   const [movie, setMovie] = useState();
@@ -14,6 +15,8 @@ const Booking = () => {
   const [openPaymentDialog, setOpenPaymentDialog] = useState(false);
   const [paymentSource, setPaymentSource] = useState('');
   const {selectedCity, setSelectedCity} = useCity();
+  const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const bookingSeatLimit = isUserLoggedIn ? 8 : 1;
 
   useEffect(() => {
     getMovieDetails(id)
@@ -60,7 +63,7 @@ const Booking = () => {
     e.preventDefault();
     console.log("handle submit",inputs);
     const selectedSeatIds = seats.filter(seat => seat.status === 'selected').map(seat => seat.id);
-    newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds })
+    newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds,  isUserLoggedIn})
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
@@ -72,7 +75,7 @@ const Booking = () => {
     const selectedSeatsCount = seats.filter(seat => seat.status === 'selected').length;
     const isCurrentlySelected = seats.find(seat => seat.id === seatId).status === 'selected';
   
-    if (selectedSeatsCount < 8 || isCurrentlySelected) {
+    if (selectedSeatsCount < bookingSeatLimit || isCurrentlySelected) {
       // Toggle seat selection
       const updatedSeats = seats.map(seat => seat.id === seatId
         ? { ...seat, status: seat.status === 'selected' ? 'available' : 'selected' }
@@ -80,7 +83,7 @@ const Booking = () => {
       setSeats(updatedSeats);
     } else {
       // Optionally alert the user that the maximum number of seats has been reached
-      alert("You can select up to 8 seats.");
+      alert(`You can select up to ${bookingSeatLimit} seats.`);
     }
   };
   

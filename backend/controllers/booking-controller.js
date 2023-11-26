@@ -11,31 +11,46 @@ export const newBooking = async (req, res, next) => {
   let existingUser;
   try {
     existingMovie = await Movie.findById(movie);
-    existingUser = await User.findById(user);
+    existingUser = user=='' ? false : await User.findById(user);
   } catch (err) {
     return console.log(err);
   }
   if (!existingMovie) {
     return res.status(404).json({ message: "Movie Not Found With Given ID" });
   }
-  if (!user) {
-    return res.status(404).json({ message: "User not found with given ID " });
+  if (!existingUser) {
+    console.log("No User logged in");
+    //return res.status(404).json({ message: "User not found with given ID " });
   }
   let booking;
 
   try {
-    booking = new Bookings({
-      userId:user,
-      theaterId:theaterId,
-      movieId:movie,
-      seats:seats,
-      date: new Date(`${date}`),
-    });
+    if (existingUser){
+      booking = new Bookings({
+        userId:user,
+        theaterId:theaterId,
+        movieId:movie,
+        seats:seats,
+        date: new Date(`${date}`),
+      });
+    }
+    else{
+      booking = new Bookings({
+        theaterId:theaterId,
+        movieId:movie,
+        seats:seats,
+        date: new Date(`${date}`),
+      });
+    }
     const session = await mongoose.startSession();
     session.startTransaction();
-    existingUser.bookings.push(booking);
+    if(existingUser){
+      existingUser.bookings.push(booking);
+    }
     existingMovie.bookings.push(booking);
-    await existingUser.save({ session });
+    if(existingUser){
+      await existingUser.save({ session });
+    }
     await existingMovie.save({ session });
     await booking.save({ session });
     session.commitTransaction();

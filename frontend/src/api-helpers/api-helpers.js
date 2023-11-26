@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export const getAllMovies = async () => {
   const res = await axios.get("/movie").catch((err) => console.log(err));
 
@@ -97,15 +98,16 @@ export const getMovieDetails = async (id) => {
   return resData;
 };
 
-export const newBooking = async (data) => {
+export const newBooking = async (data, isUserLoggedIn) => {
   console.log(data);
+  let user = isUserLoggedIn ? localStorage.getItem("userId") :  ''; 
   const res = await axios
     .post("/booking", {
       movie: data.movie,
       seats: data.seats,
       date: data.date,
       theaterId:data.theater._id,
-      user: localStorage.getItem("userId"),
+      user: user,
     })
     .catch((err) => console.log(err));
 
