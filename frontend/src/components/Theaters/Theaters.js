@@ -1,14 +1,23 @@
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { getAllTheaters } from "../../api-helpers/api-helpers";
+import { getAllTheaters, getTheatersByLocation } from "../../api-helpers/api-helpers";
 import TheaterItem from "./TheaterItem";
+import { useCity } from './../CityContext';
 
 const Theaters = () => {
   const [theaters, setTheaters] = useState();
+  const {selectedCity, setSelectedCity} = useCity();
   useEffect(() => {
-    getAllTheaters()
-      .then((data) => setTheaters(data.theaters))
-      .catch((err) => console.log(err));
+    if(selectedCity==''){
+      getAllTheaters()
+        .then((data) => setTheaters(data.theaters))
+        .catch((err) => console.log(err));
+    }
+    else{
+      getTheatersByLocation(selectedCity)
+        .then((data) => setTheaters(data.theaters))
+        .catch((err) => console.log(err));
+    }
   }, []);
   return (
     <Box margin={"auto"} marginTop={4}>

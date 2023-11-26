@@ -12,11 +12,11 @@ const HomePage = () => {
   const {selectedCity, setSelectedCity} = useCity();
 
   useEffect(() => {
-    getAllMovies()
-      .then((data) => setMovies(data.movies))
-      .catch((err) => console.log(err));
-      console.log("shakshi....movies");
-      console.log(movies);
+      getAllMovies()
+        .then((data) => setMovies(data.movies))
+        .catch((err) => console.log(err));
+        console.log("shakshi....movies");
+        console.log(movies);
 
     if(selectedCity==''){
       getAllTheaters()

@@ -60,11 +60,11 @@ const Header = () => {
   };
   
   return (
-    <AppBar position="sticky" sx={{ bgcolor: "#2b2d42" }}>
+    <AppBar position="sticky" sx={{ bgcolor: "#2b2d42"}}>
       <Toolbar>
         <Box width={"20%"}>
           <IconButton LinkComponent={Link} to="/">
-            <MovieIcon />
+            <MovieIcon  style={{ color: 'white' }}/>
           </IconButton>
           <Select
             value={selectedCity}
