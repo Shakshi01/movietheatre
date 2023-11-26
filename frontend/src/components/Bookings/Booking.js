@@ -286,7 +286,7 @@ const Booking = () => {
                       >
                         <MenuItem value="">
                         </MenuItem>
-                        <MenuItem value="rewards">Rewards (Available:{AvailableRewards})</MenuItem>
+                        {isUserLoggedIn && (<MenuItem value="rewards">Rewards (Available:{AvailableRewards})</MenuItem>)}
                         <MenuItem value="creditCard">Credit Card (xxxx xxxx xxxx xxxx)</MenuItem>
                       </Select>
                       <Button type="submit" sx={{ mt: 3 }} onClick={handleFinalizeBooking}>
