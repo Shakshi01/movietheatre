@@ -13,7 +13,7 @@ import userRouter from "./routes/user-routes";
 import adminRouter from "./routes/admin-routes";
 import movieRouter from "./routes/movie-routes";
 import theaterRouter from "./routes/theater-routes";
-import locationRouter from "./routes/theater-routes";
+import locationRouter from "./routes/location-routes";
 import bookingsRouter from "./routes/booking-routes";
 
 // Using routes

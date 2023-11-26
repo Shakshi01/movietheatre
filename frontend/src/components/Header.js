@@ -31,7 +31,7 @@ const Header = () => {
   useEffect(() => {
     fetchCities()
       .then(data => {
-        setCities(data['theaters']);
+        setCities(data);
       })
       .catch(error => {
         console.error('Error fetching cities:', error);
@@ -75,8 +75,8 @@ const Header = () => {
             <MenuItem value="">
               <em>All Cities</em>
             </MenuItem>
-            {cities.map((theater, index) => (
-              <MenuItem key={index} value={theater.city}>{theater.city}</MenuItem>
+            {cities.map((city, index) => (
+              <MenuItem key={index} value={city}>{city}</MenuItem>
             ))}
           </Select>
         </Box>

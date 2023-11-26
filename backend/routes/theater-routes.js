@@ -6,32 +6,9 @@ import {
   getTheaterById,
 } from "../controllers/theater-controller";
 const theaterRouter = express.Router();
-const locationRouter = express.Router();
 theaterRouter.get("/", getAllTheaters);
 theaterRouter.get("/:id", getTheaterById);
 theaterRouter.post("/", addTheater);
-
-locationRouter.get('/', async (request, response) => {
-  try {
-      console.log("get all cities............");
-      const locations = await Theater.distinct('city');
-      return response.status(200).json(locations);
-  } catch (error) {
-      console.log(error.message);
-      response.status(500).send({message : error.message});
-  }
-});
-
-locationRouter.get('/:place', async (request, response) => {
-  try {
-      const { place } = request.params;
-      const theatres = await Theater.find({ city : place});
-      return response.status(200).json(theatres);
-  } catch (error) {
-      console.log(error.message);
-      response.status(500).send({message : error.message});
-  }
-});
 
 theaterRouter.put('/:id', async (request, response) => {
   try {
@@ -44,7 +21,7 @@ theaterRouter.put('/:id', async (request, response) => {
           });
       }
       const { id } = request.params;
-      const theatre = await Theatres.findByIdAndUpdate(id, request.body);
+      const theatre = await Theater.findByIdAndUpdate(id, request.body);
       if (!theatre) {
           return response.status(404).json({ message : 'Theatre not found.'});
       }
@@ -59,7 +36,7 @@ theaterRouter.put('/:id', async (request, response) => {
 theaterRouter.delete('/:id', async (request, response) => {
   try {
       const { id }  = request.params;
-      const theatre = await Theatres.findByIdAndDelete(id);
+      const theatre = await Theater.findByIdAndDelete(id);
       if(!theatre){
           return response.status(404).json({ message : 'Theatre not found'});
       }
@@ -70,4 +47,4 @@ theaterRouter.delete('/:id', async (request, response) => {
   }
 });
 
-export default theaterRouter;
+export default theaterRouter; 

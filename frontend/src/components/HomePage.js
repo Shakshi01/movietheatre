@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllMovies, getAllTheaters } from "../api-helpers/api-helpers";
+import { getAllMovies, getAllTheaters, getTheatersByLocation } from "../api-helpers/api-helpers";
 import MovieItem from "./Movies/MovieItem";
 import TheaterItem from "./Theaters/TheaterItem";
 import { useCity } from './CityContext';
@@ -18,12 +18,20 @@ const HomePage = () => {
       console.log("shakshi....movies");
       console.log(movies);
 
-    getAllTheaters()
-      .then((data) => setTheaters(data.theaters))
-      .catch((err) => console.log(err));
-      console.log("shakshi...theaters.");
-      console.log(theaters);
-      console.log("homepage selected city:", selectedCity);
+    if(selectedCity==''){
+      getAllTheaters()
+        .then((data) => setTheaters(data.theaters))
+        .catch((err) => console.log(err));
+        console.log("shakshi...alltheaters.",theaters);
+        console.log("homepage selected city:", selectedCity);
+    }
+    else{
+      getTheatersByLocation(selectedCity)
+        .then((data) => setTheaters(data.theaters))
+        .catch((err) => console.log(err));
+        console.log("shakshi...theaters.", theaters);
+        console.log("homepage selected city:", selectedCity);
+    }
   }, []);
 
   return (

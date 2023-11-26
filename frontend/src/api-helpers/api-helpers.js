@@ -20,8 +20,22 @@ export const getAllTheaters = async () => {
   }
 
   const data = await res.data;
-  console.log("shakshi2....");
-  console.log(data);
+  console.log("theatersall:",data);
+  return data;
+};
+
+
+export const getTheatersByLocation = async (location) => {
+  console.log("get theaters by location:", location)
+  console.log(`/locations/${location}`);
+  const res = await axios.get(`/locations/${location}`).catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("No Data");
+  }
+
+  const data = await res.data;
+  console.log("theatersbylocation:",data);
   return data;
 };
 
