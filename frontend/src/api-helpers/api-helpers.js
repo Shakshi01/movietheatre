@@ -123,6 +123,7 @@ export const newBooking = async (data) => {
 
 export const getUserBooking = async () => {
   const id = localStorage.getItem("userId");
+  console.log("usedidfor booking:",id);
   const res = await axios
     .get(`/user/bookings/${id}`)
     .catch((err) => console.log(err));
@@ -131,7 +132,7 @@ export const getUserBooking = async () => {
     return console.log("Unexpected Error");
   }
   const resData = await res.data;
-  console.log("data:",resData);
+  console.log("data in bookingprofile:",resData);
   return resData;
 };
 

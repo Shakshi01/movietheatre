@@ -102,7 +102,7 @@ export const getBookingsOfUser = async (req, res, next) => {
   const id = req.params.id;
   let bookings;
   try {
-    bookings = await Bookings.find({ user: id })
+    bookings = await Bookings.find({ userId: id })
       .populate("movieId")
       .populate("theaterId")
       .populate("userId");
