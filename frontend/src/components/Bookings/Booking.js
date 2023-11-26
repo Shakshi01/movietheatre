@@ -2,7 +2,8 @@ import { Dialog, DialogContent, DialogTitle, Button, FormLabel, TextField, Typog
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails, newBooking, getAllTheaters, getTheatersByLocation, updateRewards} from "../../api-helpers/api-helpers";
+import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/api-helpers";
+import { getTheatersByLocation, updateRewards, getUserDetails} from "../../api-helpers/api-helpers";
 import { useCity } from './../CityContext';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -20,12 +21,29 @@ const Booking = () => {
   const bookingSeatLimit = isUserLoggedIn ? 8 : 1;
   const [pricePerTicket, setPricePerTicket] = useState(0);
   const [TotalPrice, setTotalPrice] = useState(0);
+  const [AvailableRewards, setAvailableRewards] = useState(0);
+  const [user, setUser] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     getMovieDetails(id)
       .then((res) => setMovie(res.movie))
       .catch((err) => console.log(err));
+    
+    if(isUserLoggedIn){
+      console.log("userloggedin:", isUserLoggedIn);
+      getUserDetails()
+        .then((res) => {
+          if (res && res.user) {
+            console.log("in booking",res);
+            setUser(res.user);
+            setAvailableRewards(res.user.rewards);
+          }
+        })
+        .catch((err) => console.log(err));
+
+      
+    }
 
     if(selectedCity==''){
       getAllTheaters()
@@ -79,14 +97,32 @@ const Booking = () => {
     console.log("handle submit",inputs);
     try{
       const selectedSeatIds = seats.filter(seat => seat.status === 'selected').map(seat => seat.id);
-      newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds,  isUserLoggedIn})
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+      console.log("payment source:",paymentSource);
+      console.log("Awards available:",AvailableRewards);
+      if(paymentSource == 'creditCard' || (paymentSource == 'rewards' && AvailableRewards >= TotalPrice*10)){
+        newBooking({ ...inputs, movie: movie._id, seats: selectedSeatIds,  isUserLoggedIn})
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
 
-      handleClosePaymentDialog();
-      alert(`Ticket Booked`);
-      updateRewards(TotalPrice);
-      //navigate('/movies');
+        if (paymentSource == 'rewards'){
+          const newRewards = AvailableRewards - TotalPrice * 10 + TotalPrice;
+          setAvailableRewards(newRewards);
+          updateRewards(newRewards);
+        }
+        else{
+          const newRewards = AvailableRewards + TotalPrice;
+          setAvailableRewards(newRewards);
+          updateRewards(newRewards);
+        }
+
+        handleClosePaymentDialog();
+        alert(`Ticket Booked`);
+        //navigate('/movies');
+      }
+      else{
+        alert(`Available Credits not Enough, Book with Credit Crard`);
+      }
+      
     }
     catch{
       alert(`Ticket Booking Failed!`);

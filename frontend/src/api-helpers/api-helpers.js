@@ -173,12 +173,13 @@ export const updateRewards = async (changeRewards) => {
     console.log("in updaterewards:", user);
 
     const updatedData = {
-      rewards: user.rewards + changeRewards,
+      rewards: changeRewards,
     };
 
     console.log("updateddata:", updatedData);
     console.log("userid:", user._id);
-    updateUser(user._id, updatedData);
+    if(updatedData.rewards)
+      updateUser(user._id, updatedData);
   } catch (error) {
     console.error("Error in updateRewards:", error);
   }
