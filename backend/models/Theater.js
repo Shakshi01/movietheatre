@@ -13,7 +13,11 @@ const theaterSchema = new mongoose.Schema(
       capacity : {
         type : Number,
         required : true
-    }
+        },
+      price : {
+        type : Number,
+        required : true
+      }
   }
 )
 

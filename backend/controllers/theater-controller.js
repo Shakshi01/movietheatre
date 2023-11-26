@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Admin from "../models/Admin";
 import Theater from "../models/Theater";
+
 export const addTheater = async (req, res, next) => {
   const extractedToken = req.headers.authorization.split(" ")[1];
   if (!extractedToken && extractedToken.trim() === "") {
@@ -21,14 +22,15 @@ export const addTheater = async (req, res, next) => {
   });
 
   //create new theater
-  const { theaterName, city, capacity} =
+  const { theaterName, city, capacity, price} =
     req.body;
   if (
     !theaterName &&
     theaterName.trim() === "" &&
     !city &&
     city.trim() == "" &&
-    !capacity
+    !capacity &&
+    !price
   ) {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
@@ -39,6 +41,7 @@ export const addTheater = async (req, res, next) => {
       theaterName,
       city,
       capacity,
+      price,
     });
     const session = await mongoose.startSession();
     const adminUser = await Admin.findById(adminId);

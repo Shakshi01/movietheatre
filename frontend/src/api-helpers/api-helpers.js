@@ -192,6 +192,7 @@ export const addTheater = async (data) => {
         theaterName: data.theaterName,
         city: data.city,
         capacity: data.capacity,
+        price: data.price,
         admin: localStorage.getItem("adminId"),
       },
       {

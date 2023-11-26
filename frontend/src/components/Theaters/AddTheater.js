@@ -5,6 +5,7 @@ import {
     FormLabel,
     TextField,
     Typography,
+    InputAdornment,
   } from "@mui/material";
   import React, { useState } from "react";
   import { addTheater } from "../../api-helpers/api-helpers";
@@ -17,24 +18,12 @@ import {
       theaterName: "",
       city: "",
       capacity: "",
+      price: "",
     });
     const handleChange = (e) => {
       setInputs((prevState) => ({
         ...prevState,
         [e.target.name]: e.target.value,
-      }));
-    };
-    const handleIncrement = () => {
-      setInputs(prevInputs => ({
-        ...prevInputs,
-        capacity: parseInt(prevInputs.capacity, 10) + 1
-      }));
-    };
-    
-    const handleDecrement = () => {
-      setInputs(prevInputs => ({
-        ...prevInputs,
-        capacity: Math.max(parseInt(prevInputs.capacity, 10) - 1, 0) // Prevents negative numbers
       }));
     };
     const handleSubmit = (e) => {
@@ -74,7 +63,7 @@ import {
               variant="standard"
               margin="normal"
             />
-            <FormLabel sx={labelProps}>Theator Capacity</FormLabel>
+            <FormLabel sx={labelProps}>Theater Capacity</FormLabel>
             <TextField
               type="number"
               value={inputs.capacity}
@@ -82,7 +71,19 @@ import {
               name="capacity"
               margin="normal"
             />
-            
+            <FormLabel sx={labelProps}>Price</FormLabel>
+            <TextField
+              type="number"
+              value={inputs.price}
+              onChange={handleChange}
+              name="price"
+              margin="normal"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+/>
             <Button
               type="submit"
               variant="contained"
