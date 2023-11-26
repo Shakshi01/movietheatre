@@ -24,6 +24,10 @@ const userSchema = new Schema({
     required: true,
     //default: "regular", // You can set the default value as needed
   },
+  rewards: {
+    type: Number,
+    default: 0,
+  },
   membershipExpiry: {
     type: Date,
     default: new Date(1711411200000), // You can set the default date as needed

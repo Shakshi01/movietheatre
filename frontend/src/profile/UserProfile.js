@@ -67,6 +67,16 @@ const UserProfile = () => {
             >
               Email: {user.email}
             </Typography>
+            <Typography
+              mt={1}
+              padding={1}
+              width={"auto"}
+              textAlign={"center"}
+              border={"1px solid #ccc"}
+              borderRadius={6}
+            >
+              Rewards: {user.rewards}
+            </Typography>
           </Box>
         )}
         {bookings && (

@@ -37,36 +37,19 @@ export const signup = async (req, res, next) => {
   }
 };
 export const updateUser = async (req, res, next) => {
-  const id = req.params.id;
-  const { name, email, username, password } = req.body;
-  if (
-    !name &&
-    name.trim() === "" &&
-    !email &&
-    email.trim() === "" &&
-    !username &&
-    username.trim() === "" &&
-    !password &&
-    password.trim() === ""
-  ) {
-    return res.status(422).json({ message: "Invalid Inputs" });
-  }
-  const hashedPassword = bcrypt.hashSync(password);
+  const userId = req.params.id;
+  const { updatedData } = req.body;
+  console.log("updateuser:",userId, updatedData);
 
-  let user;
   try {
-    user = await User.findByIdAndUpdate(id, {
-      name,
-      email,
-      password: hashedPassword,
-    });
-  } catch (errr) {
+    const result = await User.findByIdAndUpdate(userId, { ...updatedData }, { new: true });
+    console.log("Updated Sucessfully:", result);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user", error });
     return console.log(errr);
   }
-  if (!user) {
-    return res.status(500).json({ message: "Something went wrong" });
-  }
-  res.status(200).json({ message: "Updated Sucessfully" });
+  //res.status(200).json({ message: "Updated Sucessfully" });
 };
 
 export const deleteUser = async (req, res, next) => {

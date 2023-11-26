@@ -98,9 +98,12 @@ export const getMovieDetails = async (id) => {
   return resData;
 };
 
-export const newBooking = async (data, isUserLoggedIn) => {
+export const newBooking = async (data) => {
   console.log(data);
-  let user = isUserLoggedIn ? localStorage.getItem("userId") :  ''; 
+  let user = data.isUserLoggedIn ? localStorage.getItem("userId") :  ''; 
+  console.log("isuserloogedin:", data.isUserLoggedIn);
+  console.log("userid in booking:", localStorage.getItem("userId"));
+  console.log("useridfinal", user);
   const res = await axios
     .post("/booking", {
       movie: data.movie,
@@ -147,12 +150,58 @@ export const deleteBooking = async (id) => {
 
 export const getUserDetails = async () => {
   const id = localStorage.getItem("userId");
+  console.log("getuserbyid:",id);
   const res = await axios.get(`/user/${id}`).catch((err) => console.log(err));
   if (res.status !== 200) {
     return console.log("Unexpected Error");
   }
   const resData = await res.data;
+  console.log("user:", resData);
+  console.log("user:", resData.user);
   return resData;
+};
+
+export const updateRewards = async (changeRewards) => {
+  console.log("changerewards:", changeRewards);
+  try {
+    const resData = await getUserDetails();
+    if (!resData || !resData.user) {
+      console.log("User not found");
+      return;
+    }
+    const user = resData.user;
+    console.log("in updaterewards:", user);
+
+    const updatedData = {
+      rewards: user.rewards + changeRewards,
+    };
+
+    console.log("updateddata:", updatedData);
+    console.log("userid:", user._id);
+    updateUser(user._id, updatedData);
+  } catch (error) {
+    console.error("Error in updateRewards:", error);
+  }
+};
+
+export const updateUser = async (userId, updatedData) => {
+  try{
+    const res = await axios
+      .put(`/user/${userId}`, {
+        updatedData,
+      })
+      .catch((err) => console.log(err));
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log("Unexpected Error Occurred");
+    }
+
+    const resData = await res.data;
+    return resData;
+  }
+  catch(error){
+    console.error('There was an error during update:', error);
+  }
 };
 
 export const addMovie = async (data) => {

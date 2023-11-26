@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogTitle, Button, FormLabel, TextField, Typog
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails, newBooking, getAllTheaters, getTheatersByLocation} from "../../api-helpers/api-helpers";
+import { getMovieDetails, newBooking, getAllTheaters, getTheatersByLocation, updateRewards} from "../../api-helpers/api-helpers";
 import { useCity } from './../CityContext';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ const Booking = () => {
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const bookingSeatLimit = isUserLoggedIn ? 8 : 1;
   const [pricePerTicket, setPricePerTicket] = useState(0);
+  const [TotalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,6 +62,7 @@ const Booking = () => {
   }, [selectedTheater]);
 
   const handleOpenPaymentDialog = () => {
+    setTotalPrice(seats.filter(seat => seat.status === 'selected').length * pricePerTicket + 1.5);
     setOpenPaymentDialog(true);
   };
   
@@ -83,6 +85,8 @@ const Booking = () => {
 
       handleClosePaymentDialog();
       alert(`Ticket Booked`);
+      updateRewards(TotalPrice);
+      //navigate('/movies');
     }
     catch{
       alert(`Ticket Booking Failed!`);
@@ -236,7 +240,7 @@ const Booking = () => {
                         <br />
                         Online Service Fees: $1.5
                         <br />
-                        Total Price: ${seats.filter(seat => seat.status === 'selected').length * pricePerTicket + 1.5}
+                        Total Price: ${TotalPrice}
                       </Typography>
                       <Select
                         value={paymentSource}
