@@ -89,8 +89,18 @@ export const sendAdminAuthRequest = async (data) => {
 };
 
 export const getMovieDetails = async (id) => {
-  console.log("movie id:",id);
+  console.log("getmovie details movie id:",id);
   const res = await axios.get(`/movie/${id}`).catch((err) => console.log(err));
+  if (res.status !== 200) {
+    return console.log("Unexpected Error");
+  }
+  const resData = await res.data;
+  return resData;
+};
+
+export const getTheaterDetails = async (id) => {
+  console.log("gettheater details theater id:",id);
+  const res = await axios.get(`/theater/${id}`).catch((err) => console.log(err));
   if (res.status !== 200) {
     return console.log("Unexpected Error");
   }
@@ -139,6 +149,32 @@ export const getUserBooking = async () => {
 export const deleteBooking = async (id) => {
   const res = await axios
     .delete(`/booking/${id}`)
+    .catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("Unepxected Error");
+  }
+
+  const resData = await res.data;
+  return resData;
+};
+
+export const deleteMovie = async (id) => {
+  const res = await axios
+    .delete(`/movie/${id}`)
+    .catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("Unepxected Error");
+  }
+
+  const resData = await res.data;
+  return resData;
+};
+
+export const deleteTheater = async (id) => {
+  const res = await axios
+    .delete(`/theater/${id}`)
     .catch((err) => console.log(err));
 
   if (res.status !== 200) {
@@ -235,6 +271,36 @@ export const addMovie = async (data) => {
   return resData;
 };
 
+export const editMovie = async (data) => {
+  console.log("editmovie data:", data);
+  try {
+    const updatedData = {
+      movieName: data.movieName,
+      description: data.description,
+      date: data.date,
+      img: data.img,
+      language: data.language,
+      length: data.length,
+      admin: localStorage.getItem("adminId"),
+    };
+    
+    const res = await axios
+      .put(`/movie/${data.id}`, {
+        updatedData,
+      })
+      .catch((err) => console.log(err));
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log("Unexpected Error Occurred");
+    }
+
+    const resData = await res.data;
+    return resData;
+  } catch (error) {
+    console.error("Error in editmovie:", error);
+  }
+};
+
 export const addTheater = async (data) => {
   const res = await axios
     .post(
@@ -260,6 +326,34 @@ export const addTheater = async (data) => {
 
   const resData = await res.data;
   return resData;
+};
+
+export const editTheater = async (data) => {
+  console.log("edittheater data:", data);
+  try {
+    const updatedData = {
+      theaterName: data.theaterName,
+      city: data.city,
+      capacity: data.capacity,
+      price: data.price,
+      admin: localStorage.getItem("adminId"),
+    };
+    
+    const res = await axios
+      .put(`/theater/${data.id}`, {
+        updatedData,
+      })
+      .catch((err) => console.log(err));
+
+    if (res.status !== 200 && res.status !== 201) {
+      console.log("Unexpected Error Occurred");
+    }
+
+    const resData = await res.data;
+    return resData;
+  } catch (error) {
+    console.error("Error in edittheater:", error);
+  }
 };
 
 export const getAdminById = async () => {

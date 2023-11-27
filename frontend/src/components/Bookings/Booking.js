@@ -120,7 +120,7 @@ const Booking = () => {
 
         handleClosePaymentDialog();
         alert(`Ticket Booked`);
-        //navigate('/movies');
+        navigate('/movies');
       }
       else{
         alert(`Available Credits not Enough, Book with Credit Crard`);

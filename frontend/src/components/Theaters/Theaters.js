@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { getAllTheaters, getTheatersByLocation } from "../../api-helpers/api-helpers";
 import TheaterItem from "./TheaterItem";
 import { useCity } from './../CityContext';
+import { useSelector } from "react-redux";
 
 const Theaters = () => {
+  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const [theaters, setTheaters] = useState();
   const {selectedCity, setSelectedCity} = useCity();
   useEffect(() => {
@@ -47,6 +49,7 @@ const Theaters = () => {
               id={theater._id}
               city={theater.city}
               theaterName={theater.theaterName}
+              isAdminLoggedIn={isAdminLoggedIn}
             />
           ))}
       </Box>

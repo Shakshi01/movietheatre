@@ -84,13 +84,13 @@ const Header = () => {
           <Autocomplete
             onChange={handleChange}
             freeSolo
-            options={movies && movies.map((option) => option.title)}
+            options={movies && movies.map((option) => option.movieName)}
             renderInput={(params) => (
               <TextField
                 sx={{ input: { color: "white" } }}
                 variant="standard"
                 {...params}
-                placeholder="Search Acroos Multiple Movies"
+                placeholder="Search Across Multiple Movies"
               />
             )}
           />

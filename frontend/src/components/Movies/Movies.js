@@ -2,8 +2,10 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getAllMovies } from "../../api-helpers/api-helpers";
 import MovieItem from "./MovieItem";
+import { useSelector } from "react-redux";
 
 const Movies = () => {
+  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const [movies, setMovies] = useState();
   useEffect(() => {
     getAllMovies()
@@ -39,6 +41,7 @@ const Movies = () => {
               posterUrl={movie.img}
               releaseDate={movie.date}
               title={movie.movieName}
+              isAdminLoggedIn={isAdminLoggedIn}
             />
           ))}
       </Box>

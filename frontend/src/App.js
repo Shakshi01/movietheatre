@@ -7,7 +7,11 @@ import Booking from "./components/Bookings/Booking";
 import Header from "./components/Header";
 import HomePage from "./components/HomePage";
 import AddMovie from "./components/Movies/AddMovie";
+import EditMovie from "./components/Movies/EditMovie";
+import DeleteMovie from "./components/Movies/DeleteMovie";
 import AddTheater from "./components/Theaters/AddTheater";
+import EditTheater from "./components/Theaters/EditTheater";
+import DeleteTheater from "./components/Theaters/DeleteTheater";
 import Movies from "./components/Movies/Movies";
 import AdminProfile from "./profile/AdminProfile";
 import UserProfile from "./profile/UserProfile";
@@ -63,7 +67,11 @@ function App() {
               <>
                 {" "}
                 <Route path="/addtheater" element={<AddTheater />} />
+                <Route path="/edittheater/:id" element={<EditTheater />} />
+                <Route path="/deletetheater/:id" element={<DeleteTheater />} />
                 <Route path="/addmovie" element={<AddMovie />} />
+                <Route path="/editmovie/:id" element={<EditMovie />} />
+                <Route path="/deletemovie/:id" element={<DeleteMovie />} />
                 <Route path="/user-admin" element={<AdminProfile />} />{" "}
               </>
             )}

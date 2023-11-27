@@ -5,11 +5,13 @@ import { getAllMovies, getAllTheaters, getTheatersByLocation } from "../api-help
 import MovieItem from "./Movies/MovieItem";
 import TheaterItem from "./Theaters/TheaterItem";
 import { useCity } from './CityContext';
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [theaters, setTheaters] = useState([]);
   const {selectedCity, setSelectedCity} = useCity();
+  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
 
   useEffect(() => {
       getAllMovies()
@@ -87,6 +89,7 @@ const HomePage = () => {
               posterUrl={movie.img}
               releaseDate={movie.date}
               key={index}
+              isAdminLoggedIn={isAdminLoggedIn}
             />
           ))}
       </Box>
@@ -130,6 +133,7 @@ const HomePage = () => {
               theaterName={theater.theaterName}
               city={theater.city}
               key={index}
+              isAdminLoggedIn={isAdminLoggedIn}
             />
           ))}
       </Box>

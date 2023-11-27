@@ -8,7 +8,7 @@ import {
   import React from "react";
   import { Link } from "react-router-dom";
   
-  const TheaterItem = ({ theaterName, city, id }) => {
+  const TheaterItem = ({ theaterName, city, id, isAdminLoggedIn }) => {
     return (
       <Card
         sx={{
@@ -31,22 +31,46 @@ import {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button
-            variant="contained"
-            fullWidth
-            LinkComponent={Link}
-            to={`/booking/${id}`}
-            sx={{
-              margin: "auto",
-              bgcolor: "#2b2d42",
-              ":hover": {
-                bgcolor: "#121217",
-              },
-            }}
-            size="small"
-          >
-            Book
-          </Button>
+        {isAdminLoggedIn ? (
+            <>
+              <Button
+                variant="contained"
+                size="small"
+                color="primary"
+                sx={{ mr: 1 }}
+                LinkComponent={Link}
+                to={`/edittheater/${id}`}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ bgcolor: 'red', '&:hover': { bgcolor: 'darkred' } }}
+                LinkComponent={Link}
+                to={`/deletetheater/${id}`}
+              >
+                Delete
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="contained"
+              fullWidth
+              LinkComponent={Link}
+              to={`/movies`}
+              sx={{
+                margin: "auto",
+                bgcolor: "#2b2d42",
+                ":hover": {
+                  bgcolor: "#121217",
+                },
+              }}
+              size="small"
+            >
+              Explore
+            </Button>
+          )}
         </CardActions>
       </Card>
     );

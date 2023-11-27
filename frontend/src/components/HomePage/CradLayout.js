@@ -7,7 +7,10 @@ import {
   } from "@mui/material";
   import React from "react";
   import { Link } from "react-router-dom";
+  import { useSelector } from "react-redux";
   
+  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  console.log("shakshi is admin loggedin:",isAdminLoggedIn);
   const CradLayout = ({ title, description, releaseDate, posterUrl, id }) => {
     return (
       <Card
@@ -36,7 +39,7 @@ import {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button
+          {isAdminLoggedIn && (<Button
             LinkComponent={Link}
             to={`/booking/${id}`}
             fullWidth
@@ -51,7 +54,7 @@ import {
             }}
           >
             Book Now
-          </Button>
+          </Button>)}
         </CardActions>
       </Card>
     );

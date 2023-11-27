@@ -49,7 +49,6 @@ export const updateUser = async (req, res, next) => {
     res.status(500).json({ message: "Error updating user", error });
     return console.log(errr);
   }
-  //res.status(200).json({ message: "Updated Sucessfully" });
 };
 
 export const deleteUser = async (req, res, next) => {

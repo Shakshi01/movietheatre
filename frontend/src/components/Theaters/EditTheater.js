@@ -7,21 +7,43 @@ import {
     Typography,
     InputAdornment,
   } from "@mui/material";
-  import React, { useState } from "react";
-  import { addTheater } from "../../api-helpers/api-helpers";
+  import React, { useState, useEffect } from "react";
+  import { useParams } from "react-router-dom";
+  import { editTheater, getTheaterDetails } from "../../api-helpers/api-helpers";
   import { useNavigate } from "react-router-dom";
   const labelProps = {
     mt: 1,
     mb: 1,
   };
-  const AddTheater = () => {
+  const EditTheater = () => {
+    const id = useParams().id;
+    const [theater, setTheater] = useState();
+    const navigate = useNavigate();
+
     const [inputs, setInputs] = useState({
       theaterName: "",
       city: "",
       capacity: "",
       price: "",
     });
-    const navigate = useNavigate();
+
+    useEffect(() => {
+      getTheaterDetails(id)
+        .then((res) => setTheater(res.theater))
+        .catch((err) => console.log(err));
+    }, [id]);
+
+    useEffect(() => {
+      if (theater) {
+        setInputs({
+          theaterName: theater.theaterName,
+          city: theater.city,
+          capacity: theater.capacity,
+          price: theater.price,
+        });
+      }
+    }, [theater]);
+
     const handleChange = (e) => {
       setInputs((prevState) => ({
         ...prevState,
@@ -31,11 +53,12 @@ import {
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log(inputs);
-      addTheater({ ...inputs })
+      editTheater({ ...inputs, id: id })
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
 
-      navigate('/theaters');
+      alert("Movie Edit Successful");
+      navigate('/');
     };
     return (
       <div>
@@ -49,7 +72,7 @@ import {
             boxShadow={"10px 10px 20px #ccc"}
           >
             <Typography textAlign={"center"} variant="h5" fontFamily={"verdana"}>
-              Add New Theater
+              Edit Theater
             </Typography>
             <FormLabel sx={labelProps}>Theater Name</FormLabel>
             <TextField
@@ -100,7 +123,7 @@ import {
                 },
               }}
             >
-              Add New Theater
+              Done
             </Button>
           </Box>
         </form>
@@ -108,4 +131,4 @@ import {
     );
   };
   
-  export default AddTheater;
+  export default EditTheater;

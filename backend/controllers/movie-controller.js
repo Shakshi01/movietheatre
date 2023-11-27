@@ -95,3 +95,32 @@ export const getMovieById = async (req, res, next) => {
   console.log("movie:",movie);
   return res.status(200).json({ movie });
 };
+
+export const editMovies = async (req, res, next) => {
+  const movieId = req.params.id;
+  const { updatedData } = req.body;
+  console.log("updateuser:",movieId, updatedData);
+
+  try {
+    const result = await Movie.findByIdAndUpdate(movieId, { ...updatedData }, { new: true });
+    console.log("Updated Sucessfully:", result);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user", error });
+    return console.log(error);
+  }
+};
+
+export const deleteMovie = async (req, res, next) => {
+  const id = req.params.id;
+  let movie;
+  try {
+    movie = await Movie.findByIdAndRemove(id);
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!movie) {
+    return res.status(500).json({ message: "Unable to Delete" });
+  }
+  return res.status(200).json({ message: "Successfully Deleted" });
+};

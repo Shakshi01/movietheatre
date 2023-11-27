@@ -4,11 +4,15 @@ import {
   addTheater,
   getAllTheaters,
   getTheaterById,
+  editTheater,
+  deleteTheater,
 } from "../controllers/theater-controller";
 const theaterRouter = express.Router();
 theaterRouter.get("/", getAllTheaters);
 theaterRouter.get("/:id", getTheaterById);
+theaterRouter.put("/:id", editTheater);
 theaterRouter.post("/", addTheater);
+theaterRouter.delete("/:id", deleteTheater);
 
 theaterRouter.put('/:id', async (request, response) => {
   try {

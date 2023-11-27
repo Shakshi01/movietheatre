@@ -5,23 +5,48 @@ import {
     TextField,
     Typography,
   } from "@mui/material";
-  import React, { useState } from "react";
-  import { addMovie } from "../../api-helpers/api-helpers";
+  import { useParams } from "react-router-dom";
+  import React, { useState, useEffect } from "react";
+  import { editMovie, getMovieDetails} from "../../api-helpers/api-helpers";
   import { useNavigate } from "react-router-dom";
   const labelProps = {
     mt: 1,
     mb: 1,
   };
-  const AddMovie = () => {
-    const [inputs, setInputs] = useState({
-      movieName: "",
-      language: "",
-      description: "",
-      img: "",
-      date: "",
-      length: "",
-    });
+  const EditMovie = () => {
+    const id = useParams().id;
+    const [movie, setMovie] = useState();
     const navigate = useNavigate();
+
+    useEffect(() => {
+      getMovieDetails(id)
+        .then((res) => setMovie(res.movie))
+        .catch((err) => console.log(err));
+    }, [id]);
+
+    const [inputs, setInputs] = useState({
+      movieName: '',
+      language: '',
+      description: '',
+      img: '',
+      date: '',
+      length: '',
+    });
+
+    useEffect(() => {
+      if (movie) {
+        console.log("date:",movie.date);
+        setInputs({
+          movieName: movie.movieName,
+          language: movie.language,
+          description: movie.description,
+          img: movie.img,
+          date: movie.date ? movie.date.split('T')[0] : '',
+          length: movie.length,
+        });
+      }
+    }, [movie]);
+    
     const handleChange = (e) => {
       setInputs((prevState) => ({
         ...prevState,
@@ -31,11 +56,12 @@ import {
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log(inputs);
-      addMovie(inputs)
+      editMovie({...inputs, id: id})
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
 
-      navigate('/movies');
+      alert("Movie Edit Successful");
+      navigate('/');
     };
     return (
       <div>
@@ -49,7 +75,7 @@ import {
             boxShadow={"10px 10px 20px #ccc"}
           >
             <Typography textAlign={"center"} variant="h5" fontFamily={"verdana"}>
-              Add New Movie
+              Edit Movie
             </Typography>
             <FormLabel sx={labelProps}>Title</FormLabel>
             <TextField
@@ -112,7 +138,7 @@ import {
                 },
               }}
             >
-              Add New Movie
+              Done
             </Button>
           </Box>
         </form>
@@ -120,4 +146,4 @@ import {
     );
   };
   
-  export default AddMovie;
+  export default EditMovie;

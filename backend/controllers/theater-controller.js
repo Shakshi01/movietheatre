@@ -94,3 +94,32 @@ export const getTheaterById = async (req, res, next) => {
 
   return res.status(200).json({ theater });
 };
+
+export const editTheater = async (req, res, next) => {
+  const theaterId = req.params.id;
+  const { updatedData } = req.body;
+  console.log("updateuser:",theaterId, updatedData);
+
+  try {
+    const result = await Theater.findByIdAndUpdate(theaterId, { ...updatedData }, { new: true });
+    console.log("Updated Sucessfully:", result);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user", error });
+    return console.log(error);
+  }
+};
+
+export const deleteTheater = async (req, res, next) => {
+  const id = req.params.id;
+  let theater;
+  try {
+    theater = await Theater.findByIdAndRemove(id);
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!theater) {
+    return res.status(500).json({ message: "Unable to Delete" });
+  }
+  return res.status(200).json({ message: "Successfully Deleted" });
+};
