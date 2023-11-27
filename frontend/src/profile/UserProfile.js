@@ -123,7 +123,7 @@ const UserProfile = () => {
                     <ListItemText
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
                     >
-                      Theater: {booking.theaterId.theaterName}
+                      Theater: {booking.theaterId?.theaterName}
                     </ListItemText>
                     <ListItemText 
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
