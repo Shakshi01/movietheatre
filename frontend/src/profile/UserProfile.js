@@ -4,7 +4,7 @@ import {
   deleteBooking,
   getUserBooking,
   getUserDetails,
-} from "../api-helpers/api-helpers";
+} from "../api-helpers/api-helpers.js";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   IconButton,

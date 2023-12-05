@@ -1,9 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { sendAdminAuthRequest } from "../../api-helpers/api-helpers";
+import { sendAdminAuthRequest } from "../../api-helpers/api-helpers.js";
 import { adminActions } from "../../store";
-import AuthForm from "./AuthForm";
+import AuthForm from "./AuthForm.js";
 //import AdminAuth from "./AdminAuth";
 
 const Admin = () => {

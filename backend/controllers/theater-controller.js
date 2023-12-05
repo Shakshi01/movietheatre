@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import Admin from "../models/Admin";
-import Theater from "../models/Theater";
+import Admin from "../models/Admin.js";
+import Theater from "../models/Theater.js";
 
 export const addTheater = async (req, res, next) => {
   const extractedToken = req.headers.authorization.split(" ")[1];

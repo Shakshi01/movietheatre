@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
-import { getAllMovies } from '../../helpers/api-helpers';
+import { getAllMovies } from '../../helpers/api-helpers.js';
 
 const HomeLayout = () => {
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);

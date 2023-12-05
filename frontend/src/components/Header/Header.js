@@ -3,11 +3,11 @@ import { AppBar, Box, Tab, Tabs, TextField, Toolbar, IconButton } from "@mui/mat
 import MovieCreationIcon from "@mui/icons-material/MovieCreation";
 import SearchIcon from "@mui/icons-material/Search"; // Import search icon
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"; // Import account icon
-import { getAllMovies } from "../../helpers/api-helpers";
+import { getAllMovies } from "../../helpers/api-helpers.js";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { userActions } from "../../store/user-slice";
-import { adminActions } from "../../store/admin-slice";
+import { userActions } from "../../store/user-slice.js";
+import { adminActions } from "../../store/admin-slice.js";
 
 const Header = () => {
   const navigate = useNavigate();

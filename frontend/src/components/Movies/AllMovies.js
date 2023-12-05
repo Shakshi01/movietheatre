@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { getAllMovies } from "../../helpers/api-helpers";
-import CradLayout from "../HomePage/CradLayout";
+import { getAllMovies } from "../../helpers/api-helpers.js";
+import CradLayout from "../HomePage/CradLayout.js";
 
 const AllMovies = () => {
   const [movies, setMovies] = useState();

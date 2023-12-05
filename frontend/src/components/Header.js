@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 import MovieIcon from "@mui/icons-material/Movie";
 import { Box } from "@mui/system";
-import { getAllMovies, fetchCities } from "../api-helpers/api-helpers";
+import { getAllMovies, fetchCities } from "../api-helpers/api-helpers.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { adminActions, userActions } from "../store";
-import { useCity } from './CityContext';
+import { useCity } from './CityContext.js';
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

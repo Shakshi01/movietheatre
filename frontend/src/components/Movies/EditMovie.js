@@ -7,7 +7,7 @@ import {
   } from "@mui/material";
   import { useParams } from "react-router-dom";
   import React, { useState, useEffect } from "react";
-  import { editMovie, getMovieDetails} from "../../api-helpers/api-helpers";
+  import { editMovie, getMovieDetails} from "../../api-helpers/api-helpers.js";
   import { useNavigate } from "react-router-dom";
   const labelProps = {
     mt: 1,

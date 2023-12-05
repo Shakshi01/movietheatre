@@ -1,12 +1,12 @@
 import express from "express";
-import Theater from "../models/Theater";
+import Theater from "../models/Theater.js";
 import {
   addTheater,
   getAllTheaters,
   getTheaterById,
   editTheater,
   deleteTheater,
-} from "../controllers/theater-controller";
+} from "../controllers/theater-controller.js";
 const theaterRouter = express.Router();
 theaterRouter.get("/", getAllTheaters);
 theaterRouter.get("/:id", getTheaterById);

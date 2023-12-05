@@ -1,5 +1,5 @@
 import express from "express";
-import Theater from "../models/Theater";
+import Theater from "../models/Theater.js";
 
 const locationRouter = express.Router();
 

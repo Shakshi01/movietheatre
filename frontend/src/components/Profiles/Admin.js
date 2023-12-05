@@ -2,7 +2,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
-import { getAdmidData } from "../../helpers/api-helpers";
+import { getAdmidData } from "../../helpers/api-helpers.js";
 const Admin = () => {
   const [admin, setAdmim] = useState();
   const onResReceived = (res) => {

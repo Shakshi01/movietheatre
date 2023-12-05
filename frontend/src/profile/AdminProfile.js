@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
-import { getAdminById } from "../api-helpers/api-helpers";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { getAdminById } from "../api-helpers/api-helpers.js";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle.js";
 import { List, ListItem, ListItemText, Typography } from "@mui/material";
 const AdminProfile = () => {
   const [admin, setAdmin] = useState();

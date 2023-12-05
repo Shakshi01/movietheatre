@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getAllMovies, getAllTheaters, getTheatersByLocation } from "../api-helpers/api-helpers";
-import MovieItem from "./Movies/MovieItem";
-import TheaterItem from "./Theaters/TheaterItem";
-import { useCity } from './CityContext';
+import { getAllMovies, getAllTheaters, getTheatersByLocation } from "../api-helpers/api-helpers.js";
+import MovieItem from "./Movies/MovieItem.js";
+import TheaterItem from "./Theaters/TheaterItem.js";
+import { useCity } from './CityContext.js';
 import { useSelector } from "react-redux";
 
 const HomePage = () => {

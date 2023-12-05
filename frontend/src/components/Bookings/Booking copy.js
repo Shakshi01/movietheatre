@@ -2,7 +2,7 @@ import { Button, FormLabel, TextField, Typography, Select, MenuItem, Grid } from
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/api-helpers";
+import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/api-helpers.js";
 
 const Booking = () => {
   const [movie, setMovie] = useState();

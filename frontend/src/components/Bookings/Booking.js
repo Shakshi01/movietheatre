@@ -2,9 +2,9 @@ import { Dialog, DialogContent, DialogTitle, Button, FormLabel, TextField, Typog
 import { Box } from "@mui/system";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/api-helpers";
-import { getTheatersByLocation, updateRewards, getUserDetails} from "../../api-helpers/api-helpers";
-import { useCity } from './../CityContext';
+import { getMovieDetails, newBooking, getAllTheaters } from "../../api-helpers/api-helpers.js";
+import { getTheatersByLocation, updateRewards, getUserDetails} from "../../api-helpers/api-helpers.js";
+import { useCity } from './../CityContext.js';
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 

@@ -5,7 +5,7 @@ import {
   getMovieById,
   editMovies,
   deleteMovie,
-} from "../controllers/movie-controller";
+} from "../controllers/movie-controller.js";
 const movieRouter = express.Router();
 movieRouter.get("/", getAllMovies);
 movieRouter.get("/:id", getMovieById);

@@ -9,12 +9,12 @@ app.use(cors());
 app.use(express.json());
 
 // Importing routes
-import userRouter from "./routes/user-routes";
-import adminRouter from "./routes/admin-routes";
-import movieRouter from "./routes/movie-routes";
-import theaterRouter from "./routes/theater-routes";
-import locationRouter from "./routes/location-routes";
-import bookingsRouter from "./routes/booking-routes";
+import userRouter from "./routes/user-routes.js";
+import adminRouter from "./routes/admin-routes.js";
+import movieRouter from "./routes/movie-routes.js";
+import theaterRouter from "./routes/theater-routes.js";
+import locationRouter from "./routes/location-routes.js";
+import bookingsRouter from "./routes/booking-routes.js";
 
 // Using routes
 app.use("/user", userRouter);

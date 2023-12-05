@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { getAllMovies } from "../../api-helpers/api-helpers";
-import MovieItem from "./MovieItem";
+import { getAllMovies } from "../../api-helpers/api-helpers.js";
+import MovieItem from "./MovieItem.js";
 import { useSelector } from "react-redux";
 
 const Movies = () => {

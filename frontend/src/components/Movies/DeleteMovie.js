@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogContentText, DialogTitle, DialogActions, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { deleteMovie } from "../../api-helpers/api-helpers";
+import { deleteMovie } from "../../api-helpers/api-helpers.js";
 import { useNavigate } from "react-router-dom";
 const labelProps = {
   mt: 1,
