@@ -4,6 +4,8 @@ import {
   deleteBooking,
   getUserBooking,
   getUserDetails,
+  getbookingDetails,
+  updateRewards,
 } from "../api-helpers/api-helpers";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
@@ -17,6 +19,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 const UserProfile = () => {
   const [bookings, setBookings] = useState();
   const [user, setUser] = useState();
+  const [pricePerTicket, setPricePerTicket] = useState(0);
+  const [booking, setBooking] = useState();
+  const [bookingdeleted, setbookingdeleted] = useState(false);
+
   useEffect(() => {
     getUserBooking()
       .then((res) => setBookings(res.bookings))
@@ -26,13 +32,49 @@ const UserProfile = () => {
       .then((res) => setUser(res.user))
       .catch((err) => console.log(err));
   }, []);
+
+  const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+  }
+
+  useEffect(() => {
+    const processUpdate = async () => {
+      if (bookingdeleted){
+        const refund_rewards = booking.booking.seats.length * pricePerTicket * 10;
+        const newRewards = user.rewards + refund_rewards;
+        await updateRewards(newRewards);
+        setbookingdeleted(false);
+  
+        await sleep(500);
+        window.location.reload();
+      }
+    };
+  
+    processUpdate();
+  }, [bookingdeleted, booking, pricePerTicket]);
+
   const handleDelete = (id) => {
-    deleteBooking(id)
-      .then((res) => console.log(res))
+    getbookingDetails(id)
+      .then((res) => setBooking(res))
       .catch((err) => console.log(err));
-    
-    window.location.reload()
+
+    deleteBooking(id)
+      .then((res) => {
+        setPricePerTicket(res.theater.price);
+        setbookingdeleted(true);
+      })
+      .catch((err) => console.log(err));
   };
+
+  const adjustDate = (dateStr) => {
+    const parts = dateStr.split('-');
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // JS months start at 0
+    const day = parseInt(parts[2], 10);
+  
+    return new Date(year, month, day);
+  }
+
   return (
     <Box width={"100%"} display="flex">
       <Fragment>
@@ -134,7 +176,7 @@ const UserProfile = () => {
                     <ListItemText
                       sx={{ margin: 1, width: "auto", textAlign: "left" }}
                     >
-                      Date: {new Date(booking.date).toDateString()}
+                      Date: {adjustDate(booking.date).toLocaleDateString()}
                     </ListItemText>
                     <IconButton
                       onClick={() => handleDelete(booking._id)}
