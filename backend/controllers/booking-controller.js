@@ -85,7 +85,7 @@ export const deleteBooking = async (req, res, next) => {
   const id = req.params.id;
   let booking;
   try {
-    booking = await Bookings.findByIdAndRemove(id).populate("userId movieId");
+    booking = await Bookings.findByIdAndRemove(id).populate("userId movieId theaterId");
     console.log(booking);
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -100,5 +100,5 @@ export const deleteBooking = async (req, res, next) => {
   if (!booking) {
     return res.status(500).json({ message: "Unable to Delete" });
   }
-  return res.status(200).json({ message: "Successfully Deleted" });
+  return res.status(200).json({ theater: booking.theaterId, message: "Successfully Deleted" });
 };

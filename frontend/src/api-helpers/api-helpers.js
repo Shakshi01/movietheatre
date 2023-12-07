@@ -98,6 +98,17 @@ export const getMovieDetails = async (id) => {
   return resData;
 };
 
+export const getbookingDetails = async (id) => {
+  console.log("get booking details booking id:",id);
+  const res = await axios.get(`/booking/${id}`).catch((err) => console.log(err));
+  if (res.status !== 200) {
+    return console.log("Unexpected Error");
+  }
+  console.log("data in booking details:",res.data);
+  const resData = await res.data;
+  return resData;
+};
+
 export const getTheaterDetails = async (id) => {
   console.log("gettheater details theater id:",id);
   const res = await axios.get(`/theater/${id}`).catch((err) => console.log(err));
@@ -147,6 +158,7 @@ export const getUserBooking = async () => {
 };
 
 export const deleteBooking = async (id) => {
+  console.log("in delete booking");
   const res = await axios
     .delete(`/booking/${id}`)
     .catch((err) => console.log(err));
@@ -154,7 +166,7 @@ export const deleteBooking = async (id) => {
   if (res.status !== 200) {
     return console.log("Unepxected Error");
   }
-
+  console.log("delete booking:",res);
   const resData = await res.data;
   return resData;
 };
@@ -167,7 +179,6 @@ export const deleteMovie = async (id) => {
   if (res.status !== 200) {
     return console.log("Unepxected Error");
   }
-
   const resData = await res.data;
   return resData;
 };
